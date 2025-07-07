@@ -30,7 +30,7 @@ Route::post('/posts',[PostsController::class,'store'])->name('site.store');
     Route::get('/logout', [LoginController::class, 'logout'])->name('site.logout'); // Rota para processar o logout
     Route::get('/register',function(){
         return view('site.register');
-    })->name('site.register');; // Rota para exibir o formulário de registro
+    })->name('site.register'); // Rota para exibir o formulário de registro
     Route::post('/register', [LoginController::class, 'register'])->name('register');
 
 

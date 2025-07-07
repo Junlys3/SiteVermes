@@ -35,10 +35,11 @@ class LoginController extends Controller
 
     public function register(Request $request)
     {
-        $user = $request->all();
-
-        $user['password'] = bcrypt($request->password);
-        $user = User::create($user);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
         Auth::login($user);
 
         return redirect()->route('site.home');
