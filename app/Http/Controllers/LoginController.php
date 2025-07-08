@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\models\User; // Ensure you have the User model imported
+use App\Models\User; // Ensure you have the User model imported
 
 class LoginController extends Controller
 {
