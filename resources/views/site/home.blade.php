@@ -32,13 +32,7 @@
       <i class="material-icons">add</i>
     </a>
   @endauth
-
-  {{-- Rodapé simples separado --}}
-  <footer class="page-footer pastel-yellow pastel-blue-text" style="padding: 10px 0; margin-top: 40px;">
-    <div class="container center-align">
-      &copy; 2025 Balacobaco - Todos os direitos reservados
-    </div>
-  </footer>
+  
 
 @endsection
 
