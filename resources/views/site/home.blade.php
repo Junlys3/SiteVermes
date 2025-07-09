@@ -1,32 +1,55 @@
 @extends('site.layout')
+
 @section('content')
   <div class="row container"> 
     @foreach($posts as $post)
-        <div class="col s12 m6">
-          <div class="card blue-grey darken-1">
-            <div class="card-content white-text">
-              <span class="card-title">{{$post->nome}}</span>
-              <p>{{$post->text}}</p>
-            </div>
-            <div class="card-action">
-              <p> {{$post->name}} </p>
-            </div>
-            <div class="card-action">
-              <p> Autor: {{$post->user->name ?? 'Usuário desconhecido'}} </p>
-            </div>
+      <div class="col s12 m6">
+        <div class="card blue-grey darken-1">
+          <div class="card-content white-text">
+            <span class="card-title">{{ $post->nome }}</span>
+            <p>{{ $post->text }}</p>
+          </div>
+          <div class="card-action">
+            <p>{{ $post->name }}</p>
+          </div>
+          <div class="card-action">
+            <p>Autor: {{ $post->user->name ?? 'Usuário desconhecido' }}</p>
           </div>
         </div>
+      </div>
     @endforeach
   </div> 
-  
 
-
-<footer>
-  @auth
-   <a class="btn-floating btn-large waves-effect waves-light red right" href="{{ route("site.form")}}"><i class="material-icons">add</i></a>
-  @endauth
-  <div class="row center" style="position: absolute; bottom: 0; width: 100%;">
-    {{$posts->links('vendor.pagination.default') }} 
+  {{-- Paginação --}}
+  <div class="row center">
+    {{ $posts->links('vendor.pagination.default') }}
   </div>
-</footer>
+
+  {{-- Botão flutuante para adicionar novo post --}}
+  @auth
+    <a href="{{ route('site.form') }}" 
+       class="btn-floating btn-large waves-effect waves-light red fixed-add-btn">
+      <i class="material-icons">add</i>
+    </a>
+  @endauth
+
+  {{-- Rodapé simples separado --}}
+  <footer class="page-footer pastel-yellow pastel-blue-text" style="padding: 10px 0; margin-top: 40px;">
+    <div class="container center-align">
+      &copy; 2025 Balacobaco - Todos os direitos reservados
+    </div>
+  </footer>
+
 @endsection
+
+@push('styles')
+<style>
+  /* Posição fixa para o botão flutuante */
+  .fixed-add-btn {
+    position: fixed !important;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000; /* Para ficar na frente */
+  }
+</style>
+@endpush
