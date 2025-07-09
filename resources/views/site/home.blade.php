@@ -41,7 +41,7 @@
   /* Posição fixa para o botão flutuante */
   .fixed-add-btn {
     position: fixed !important;
-    bottom: 30px;
+    bottom: 80px;
     right: 30px;
     z-index: 1000; /* Para ficar na frente */
   }
