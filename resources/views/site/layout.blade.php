@@ -43,6 +43,7 @@
             flex: 1;
         }
     </style>
+    @stack('styles')
 </head>
 <body class="pastel-blue">
     <div class="site-wrapper">
