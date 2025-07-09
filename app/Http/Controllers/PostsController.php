@@ -16,7 +16,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = posts::paginate(4);
+        $posts = posts::paginate(2);
 
 
         return view('site.home', compact('posts'));
