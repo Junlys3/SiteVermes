@@ -15,13 +15,15 @@
             <div class="card-action">
               <p> {{$post->name}} </p>
               <p> Autor: {{$post->user->name ?? 'Usuário desconhecido'}} </p>
-              <form action="{{route('site.delete', $post->id)}}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button class="btn waves-effect waves-light red" type="submit" name="action">Excluir
-                  <i class="material-icons right">delete</i>
-                </button>
-              </form>
+              @if($post->user)
+                <form action="{{route('site.delete', $post->id)}}" method="POST">
+                  @csrf
+                  @method('DELETE')
+                  <button class="btn waves-effect waves-light red" type="submit" name="action">Excluir
+                    <i class="material-icons right">delete</i>
+                  </button>
+                </form>
+              @endif
             </div>
           </div>
         </div>
