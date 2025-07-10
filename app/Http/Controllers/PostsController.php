@@ -45,7 +45,7 @@ class PostsController extends Controller
          $pathimage = null;
          if($request->hasfile('imagem'))
           {
-            $pathimage = $request->file('image')->store('posts', 'public');
+            $pathimage = $request->file('imagem')->store('posts', 'public');
           }
         posts::create([
             'nome' => $request->name,
