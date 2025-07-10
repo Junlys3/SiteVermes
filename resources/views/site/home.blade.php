@@ -7,9 +7,8 @@
           <div class="card blue-grey darken-1">
             <div class="card-content white-text">
               <span class="card-title">{{$post->nome}}</span>
-              <p>{{$post->text}}</p>
+              <p>{{$post->text}}<br></p>
             </div>
-            
             <div class="card-action">
               <p> {{$post->name}} </p>
               <p> Autor: {{$post->user->name ?? 'Usuário desconhecido'}} </p>
@@ -51,6 +50,10 @@
     bottom: 80px;
     right: 30px;
     z-index: 1000; /* Para ficar na frente */
+  }
+  .card-content p {
+    word-wrap: break-word;      /* Quebra palavras muito longas */
+    overflow-wrap: break-word;  /* Mesma função, compatível com mais browsers */
   }
 </style>
 @endpush
