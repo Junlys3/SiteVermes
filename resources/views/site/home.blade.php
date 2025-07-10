@@ -15,7 +15,7 @@
             <div class="card-action">
               <p> {{$post->name}} </p>
               <p> Autor: {{$post->user->name ?? 'Usuário desconhecido'}} </p>
-              @if($post->user)
+              @if($post->user == auth()->user())
                 <form action="{{route('site.delete', $post->id)}}" method="POST">
                   @csrf
                   @method('DELETE')
