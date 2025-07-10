@@ -6,6 +6,19 @@ use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ImagemPostControllerController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+
+Route::get('storage/{path}', function ($path) {
+    $file = storage_path('app/public/' . $path);
+
+    if (!file_exists($file)) {
+        abort(404);
+    }
+
+    return Response::file($file);
+})->where('path', '.*');
+
 
 Route::get('/',[PostsController::class,'index'])->name('site.home'); 
 
