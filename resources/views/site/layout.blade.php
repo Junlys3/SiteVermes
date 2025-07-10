@@ -52,7 +52,7 @@
                 <a href="#" class="brand-logo pastel-blue-text">Balacobaco</a>
                 <ul id="nav-mobile" class="right">
                     <li><a href="{{ route('site.home') }}" class="pastel-blue-text">Home</a></li>
-                    <li><a href="{{ route('site.post') }}" class="pastel-blue-text">Posts</a></li>
+                    <li><a href="#" class="pastel-blue-text">Posts</a></li>
                     <li><a href="#" class="pastel-blue-text">Sobre</a></li>
                     @auth
                         <li>
