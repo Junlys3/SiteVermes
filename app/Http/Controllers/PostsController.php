@@ -77,8 +77,12 @@ class PostsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(posts $posts)
+    public function destroy($id)
     {
-        //
+        $post = Posts::findOrFail($id); // Busca o post pelo ID
+
+        $post->delete(); // Exclui o post
+
+        return redirect()->route('site.home')->with('success', 'Post deletado com sucesso!');
     }
 }

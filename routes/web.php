@@ -32,6 +32,7 @@ Route::post('/posts',[PostsController::class,'store'])->name('site.store');
         return view('site.register');
     })->name('site.register'); // Rota para exibir o formulário de registro
     Route::post('/register', [LoginController::class, 'register'])->name('register');
+    Route::delete('/delete/{id}', [PostsController::class, 'destroy'])->name('site.delete')->middleware('auth'); // Rota para deletar o post
 
 
 

@@ -8,11 +8,19 @@
               <span class="card-title">{{$post->nome}}</span>
               <p>{{$post->text}}</p>
             </div>
+            
             <div class="card-action">
               <p> {{$post->name}} </p>
             </div>
             <div class="card-action">
               <p> Autor: {{$post->user->name ?? 'Usuário desconhecido'}} </p>
+              <form action="{{route('site.delete', $post->id)}}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button class="btn waves-effect waves-light red" type="submit" name="action">Excluir
+                  <i class="material-icons right">delete</i>
+                </button>
+              </form>
             </div>
           </div>
         </div>
