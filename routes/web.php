@@ -9,15 +9,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 
-Route::get('storage/{path}', function ($path) {
-    $file = storage_path('app/public/' . $path);
 
-    if (!file_exists($file)) {
-        abort(404);
-    }
-
-    return Response::file($file);
-})->where('path', '.*');
 
 
 Route::get('/',[PostsController::class,'index'])->name('site.home'); 
@@ -28,6 +20,13 @@ Route::get('/storage-link', function () {
     Artisan::call('storage:link');
     return 'Link simbólico criado com sucesso!';
 });
+
+
+Route::get('/teste', function () {
+    $files = Storage::disk('public')->files('posts');
+    dd($files);
+});
+
 
 
 
