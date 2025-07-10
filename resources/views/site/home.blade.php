@@ -7,6 +7,9 @@
           <div class="card blue-grey darken-1">
             <div class="card-content white-text">
               <span class="card-title">{{$post->nome}}</span>
+              @if ($post->image)
+                <img src="{{ asset('storage/' . $post->imagem) }}" class="responsive-img">
+              @endif
               <p>{{$post->text}}<br></p>
             </div>
             <div class="card-action">
@@ -55,5 +58,5 @@
     word-wrap: break-word;      /* Quebra palavras muito longas */
     overflow-wrap: break-word;  /* Mesma função, compatível com mais browsers */
   }
-</style>
+</style> 
 @endpush

@@ -7,7 +7,7 @@
       <div class="card">
         <div class="card-content">
           <span class="card-title center-align">Criar Post</span>
-          <form method="POST" action="{{ route('site.store') }}">
+          <form method="POST" enctype="multipart/form-data" action="{{ route('site.store') }}">
             @csrf
 
             <!-- Nome -->
@@ -21,12 +21,21 @@
               <textarea id="content" name="content" class="materialize-textarea" required></textarea>
               <label for="content">Texto</label>
             </div>
-
+   
             <!-- Botão Enviar -->
             <div class="card-action center-align">
               <button type="submit" class="btn waves-effect waves-light">
                 <i class="material-icons left">send</i> Enviar
               </button>
+              <div class="file-field input-field">
+                <div class="btn">
+                    <span>Imagem</span>
+                    <input type="file" name="imagem">
+                </div>
+              <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Upload de imagem">
+              </div>
+           </div>
             </div>
           </form>
         </div>

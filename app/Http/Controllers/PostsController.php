@@ -38,11 +38,19 @@ class PostsController extends Controller
         $request->validate([
             'name' => 'required|max:100',
             'content' => 'required|max:1000',
+            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+         
 
+         $pathimage = null;
+         if($request->hasfile('imagem'))
+          {
+            $pathimage = $request->file('image')->store('posts', 'public');
+          }
         posts::create([
             'nome' => $request->name,
             'text' => $request->content,
+            'imagem' => $pathimage, // Store the image path
             'id_user' => Auth::id() // Get the authenticated user's ID
         ]);
 
