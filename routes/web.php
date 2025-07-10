@@ -5,10 +5,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ImagemPostControllerController;
 use App\Http\Controllers\LoginController;
-
+use Illuminate\Support\Facades\Artisan;
 
 Route::get('/',[PostsController::class,'index'])->name('site.home');
 Route::get('/post',[ImagemPostController::class,'index'])->name('site.post'); 
+
+
+
+Route::get('/storage-link', function () {
+    Artisan::call('storage:link');
+    return 'Link simbólico criado com sucesso!';
+});
+
 
 
 Route::get('/postform', function () {
