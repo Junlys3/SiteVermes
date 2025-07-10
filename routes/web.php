@@ -7,8 +7,7 @@ use App\Http\Controllers\ImagemPostControllerController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Artisan;
 
-Route::get('/',[PostsController::class,'index'])->name('site.home');
-Route::get('/post',[ImagemPostController::class,'index'])->name('site.post'); 
+Route::get('/',[PostsController::class,'index'])->name('site.home'); 
 
 
 
