@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('nome');
             $table->text('text');
-            $table->imageme('imagem')->nullable(); // Optional image field
+            $table->string('imagem')->nullable(); // Optional image field
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
