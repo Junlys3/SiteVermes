@@ -43,10 +43,13 @@ class PostsController extends Controller
          
 
          $pathimage = null;
-         if($request->hasfile('imagem'))
-          {
-            $pathimage = $request->file('imagem')->store('posts', 'public');
-          }
+        if ($request->hasFile('imagem')) {
+            $file = $request->file('imagem');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads'), $filename);
+            $pathimage = 'uploads/' . $filename;
+        }
+
         posts::create([
             'nome' => $request->name,
             'text' => $request->content,
