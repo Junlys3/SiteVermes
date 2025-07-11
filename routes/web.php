@@ -23,13 +23,12 @@ Route::get('/storage-link', function () {
 
 Route::get('/storage/{filename}', function ($filename) {
     $path = storage_path('app/public/' . $filename);
-
     if (!file_exists($path)) {
         abort(404);
     }
-
     return response()->file($path);
-})->where('filename', '.*');
+})->where('filename', '.*')->name('storage.file');
+
 
 
 Route::get('/teste', function () {
