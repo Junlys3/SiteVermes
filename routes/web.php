@@ -21,6 +21,16 @@ Route::get('/storage-link', function () {
     return 'Link simbólico criado com sucesso!';
 });
 
+Route::get('/storage/{filename}', function ($filename) {
+    $path = storage_path('app/public/' . $filename);
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+})->where('filename', '.*');
+
 
 Route::get('/teste', function () {
     $files = Storage::disk('public')->files('posts');

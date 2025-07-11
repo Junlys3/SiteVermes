@@ -8,7 +8,7 @@
             <div class="card-content white-text">
               <span class="card-title">{{$post->nome}}</span>
               @if ($post->imagem)
-                <img src="{{ asset('storage/' . $post->imagem) }}" class="responsive-img">
+                <img src="{{ route('storage.file', ['filename' => $post->imagem]) }}" class="responsive-img">
               @endif
               <p>{{$post->text}}<br></p>
             </div>
