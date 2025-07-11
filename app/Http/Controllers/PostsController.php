@@ -46,9 +46,10 @@ class PostsController extends Controller
         if ($request->hasFile('imagem')) {
             $file = $request->file('imagem');
             $filename = uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads'), $filename);
-            $pathimage = 'uploads/' . $filename;
+            $pathimage = $file->storeAs('public/uploads', $filename);
+            $pathimage = str_replace('public/', '', $pathimage); // remove "public/" do caminho
         }
+
 
         posts::create([
             'nome' => $request->name,
