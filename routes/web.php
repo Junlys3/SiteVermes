@@ -6,13 +6,9 @@ use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ImagemPostControllerController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Response;
 
-
-
-
-Route::get('/',[PostsController::class,'index'])->name('site.home'); 
+Route::get('/',[PostsController::class,'index'])->name('site.home');
+ 
 
 
 
@@ -20,22 +16,6 @@ Route::get('/storage-link', function () {
     Artisan::call('storage:link');
     return 'Link simbólico criado com sucesso!';
 });
-
-Route::get('/storage/{filename}', function ($filename) {
-    $path = storage_path('app/public/' . $filename);
-    if (!file_exists($path)) {
-        abort(404);
-    }
-    return response()->file($path);
-})->where('filename', '.*')->name('storage.file');
-
-
-
-Route::get('/teste', function () {
-    $files = Storage::disk('public')->files('posts');
-    dd($files);
-});
-
 
 
 
