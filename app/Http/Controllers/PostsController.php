@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Posts;
+use App\Models\posts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -14,7 +14,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Posts::paginate(2);
+        $posts = posts::paginate(2);
 
         return view('site.home', compact('posts'));
     }
@@ -49,7 +49,7 @@ class PostsController extends Controller
             }
         }
 
-        Posts::create([
+        posts::create([
             'nome' => $request->name,
             'text' => $request->content,
             'imagem' => $fileName, // salva só o nome do arquivo no DB
@@ -64,7 +64,7 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        $post = Posts::findOrFail($id);
+        $post = posts::findOrFail($id);
 
         // Se quiser, pode remover a imagem do Supabase aqui também (opcional)
 
