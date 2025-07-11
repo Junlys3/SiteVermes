@@ -16,44 +16,26 @@ use Illuminate\Support\Facades\DB;
 
 
 
-Route::get('/migrate-images', function() {
-    // Verifica se tem imagens antigas na pasta storage/app/public/posts
-    $files = Storage::disk('public')->files('posts');
+Route::get('/migrar-imagens', function () {
+    $source = storage_path('app/public/posts');
+    $destination = public_path('uploads');
 
-    // Cria a pasta public/uploads se não existir
-    if (!File::exists(public_path('uploads'))) {
-        File::makeDirectory(public_path('uploads'), 0755, true);
+    if (!File::exists($source)) {
+        return 'Pasta de origem não encontrada: ' . $source;
     }
 
-    $migrated = 0;
-    $notFound = [];
+    if (!File::exists($destination)) {
+        File::makeDirectory($destination, 0755, true);
+    }
 
+    $files = File::files($source);
     foreach ($files as $file) {
-        $filename = basename($file);
-        $sourcePath = storage_path('app/public/' . $file);
-        $destinationPath = public_path('uploads/' . $filename);
-
-        if (File::exists($sourcePath)) {
-            if (!File::exists($destinationPath)) {
-                File::copy($sourcePath, $destinationPath);
-                $migrated++;
-            }
-        } else {
-            $notFound[] = $file;
-        }
+        $filename = $file->getFilename();
+        File::copy($file->getPathname(), $destination . '/' . $filename);
     }
 
-    // Atualiza o caminho das imagens no banco de dados
-    DB::table('posts')->where('imagem', 'like', 'posts/%')->update([
-        'imagem' => DB::raw("REPLACE(imagem, 'posts/', 'uploads/')")
-    ]);
-
-    return response()->json([
-        'migrated' => $migrated,
-        'not_found' => $notFound,
-    ]);
+    return 'Imagens antigas migradas para public/uploads!';
 });
-
 
 
 Route::get('/',[PostsController::class,'index'])->name('site.home');
