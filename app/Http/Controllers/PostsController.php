@@ -42,7 +42,9 @@ class PostsController extends Controller
                 'apikey' => env('SUPABASE_KEY'),
                 'Authorization' => 'Bearer ' . env('SUPABASE_KEY'),
                 'Content-Type' => $file->getMimeType(),
-            ])->put(env('SUPABASE_URL') . "/storage/v1/object/{$bucket}/{$fileName}", $fileContent);
+            ])->withBody($fileContent, $file->getMimeType())
+               ->put(env('SUPABASE_URL') . "/storage/v1/object/{$bucket}/{$fileName}");
+
 
             if (!$response->successful()) {
                 return back()->withErrors(['upload' => 'Erro ao fazer upload na Supabase.']);
