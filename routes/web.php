@@ -3,7 +3,7 @@
 use App\Http\Controllers\ImagemPostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
-use App\Models\Posts;
+use App\Models\posts;
 use App\Http\Controllers\ImagemPostControllerController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Artisan;
