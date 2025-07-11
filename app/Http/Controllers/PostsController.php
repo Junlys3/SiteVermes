@@ -42,13 +42,14 @@ class PostsController extends Controller
         ]);
          
 
-         $pathimage = null;
+        $pathimage = null;
         if ($request->hasFile('imagem')) {
             $file = $request->file('imagem');
             $filename = uniqid() . '.' . $file->getClientOriginalExtension();
-            $pathimage = $file->storeAs('public/uploads', $filename);
-            $pathimage = str_replace('public/', '', $pathimage); // remove "public/" do caminho
+            $file->move(base_path('public/uploads'), $filename);
+            $pathimage = 'uploads/' . $filename;
         }
+
 
 
         posts::create([
