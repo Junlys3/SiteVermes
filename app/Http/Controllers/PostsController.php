@@ -42,6 +42,10 @@ class PostsController extends Controller
         ]);
          
 
+         // Move os arquivos de imagem para a pasta public/uploads
+         // E salva o caminho no banco de dados
+         // Verifica se a pasta uploads existe, se não, cria]
+         // Feito isso para funcionar no rails
         $pathimage = null;
         if ($request->hasFile('imagem')) {
             $file = $request->file('imagem');

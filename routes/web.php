@@ -8,38 +8,48 @@ use App\Http\Controllers\ImagemPostControllerController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 
 // Rota temporária: copia as imagens de storage → public/uploads e atualiza o campo
-Route::get('/migrate-old-images', function () {
-    $uploadsDir = public_path('uploads');
-    if (! File::exists($uploadsDir)) {
-        File::makeDirectory($uploadsDir, 0755, true);
+
+
+
+Route::get('/migrate-images', function() {
+    // Verifica se tem imagens antigas na pasta storage/app/public/posts
+    $files = Storage::disk('public')->files('posts');
+
+    // Cria a pasta public/uploads se não existir
+    if (!File::exists(public_path('uploads'))) {
+        File::makeDirectory(public_path('uploads'), 0755, true);
     }
 
     $migrated = 0;
     $notFound = [];
 
-    $posts = Posts::whereNotNull('imagem')->get();
-    foreach ($posts as $post) {
-        $oldRel = $post->imagem;                // ex: "posts/abc123.jpg"
-        $oldFull = storage_path('app/public/' . $oldRel);
-        if (File::exists($oldFull)) {
-            $filename = basename($oldRel);
-            $newRel = 'uploads/' . $filename;   // ex: "uploads/abc123.jpg"
-            $newFull = public_path($newRel);
+    foreach ($files as $file) {
+        $filename = basename($file);
+        $sourcePath = storage_path('app/public/' . $file);
+        $destinationPath = public_path('uploads/' . $filename);
 
-            File::copy($oldFull, $newFull);
-            $post->imagem = $newRel;
-            $post->save();
-            $migrated++;
+        if (File::exists($sourcePath)) {
+            if (!File::exists($destinationPath)) {
+                File::copy($sourcePath, $destinationPath);
+                $migrated++;
+            }
         } else {
-            $notFound[] = $oldRel;
+            $notFound[] = $file;
         }
     }
 
+    // Atualiza o caminho das imagens no banco de dados
+    DB::table('posts')->where('imagem', 'like', 'posts/%')->update([
+        'imagem' => DB::raw("REPLACE(imagem, 'posts/', 'uploads/')")
+    ]);
+
     return response()->json([
-        'migrated'  => $migrated,
+        'migrated' => $migrated,
         'not_found' => $notFound,
     ]);
 });
