@@ -12,30 +12,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
 
-// Rota temporária: copia as imagens de storage → public/uploads e atualiza o campo
 
 
-
-Route::get('/migrar-imagens', function () {
-    $source = storage_path('app/public/posts');
-    $destination = public_path('uploads');
-
-    if (!File::exists($source)) {
-        return 'Pasta de origem não encontrada: ' . $source;
-    }
-
-    if (!File::exists($destination)) {
-        File::makeDirectory($destination, 0755, true);
-    }
-
-    $files = File::files($source);
-    foreach ($files as $file) {
-        $filename = $file->getFilename();
-        File::copy($file->getPathname(), $destination . '/' . $filename);
-    }
-
-    return 'Imagens antigas migradas para public/uploads!';
-});
 
 
 Route::get('/',[PostsController::class,'index'])->name('site.home');
