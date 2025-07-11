@@ -31,7 +31,7 @@ class PostsController extends Controller
         ]);
 
         $fileName = null;
-        $bucket = 'posts'; // nome do bucket no Supabase, ajuste se precisar
+        $bucket = 'uploads'; // nome do bucket no Supabase, ajuste se precisar
 
         if ($request->hasFile('imagem')) {
             $file = $request->file('imagem');
