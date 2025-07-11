@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\posts;
-use App\Models\User;
-use App\Http\Controllers\Controller;
+use App\Models\Posts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Http;
 
 class PostsController extends Controller
 {
@@ -16,18 +14,9 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = posts::paginate(2);
-
+        $posts = Posts::paginate(2);
 
         return view('site.home', compact('posts'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        
     }
 
     /**
@@ -38,57 +27,36 @@ class PostsController extends Controller
         $request->validate([
             'name' => 'required|max:100',
             'content' => 'required|max:1000',
-            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-         
 
-         // Move os arquivos de imagem para a pasta public/uploads
-         // E salva o caminho no banco de dados
-         // Verifica se a pasta uploads existe, se não, cria]
-         // Feito isso para funcionar no rails
-        $pathimage = null;
+        $fileName = null;
+        $bucket = 'posts'; // nome do bucket no Supabase, ajuste se precisar
+
         if ($request->hasFile('imagem')) {
             $file = $request->file('imagem');
-            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads'), $filename);
-            $pathimage = 'uploads/' . $filename;
+            $fileContent = file_get_contents($file->getPathname());
+            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+
+            $response = Http::withHeaders([
+                'apikey' => env('SUPABASE_KEY'),
+                'Authorization' => 'Bearer ' . env('SUPABASE_KEY'),
+                'Content-Type' => $file->getMimeType(),
+            ])->put(env('SUPABASE_URL') . "/storage/v1/object/{$bucket}/{$fileName}", $fileContent);
+
+            if (!$response->successful()) {
+                return back()->withErrors(['upload' => 'Erro ao fazer upload na Supabase.']);
+            }
         }
 
-
-
-        posts::create([
+        Posts::create([
             'nome' => $request->name,
             'text' => $request->content,
-            'imagem' => $pathimage, // Store the image path
-            'id_user' => Auth::id() // Get the authenticated user's ID
+            'imagem' => $fileName, // salva só o nome do arquivo no DB
+            'id_user' => Auth::id(),
         ]);
 
-         return redirect()->route('site.home')->with('success', 'Post criado com sucesso!');
-
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(posts $posts)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(posts $posts)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, posts $posts)
-    {
-        //
+        return redirect()->route('site.home')->with('success', 'Post criado com sucesso!');
     }
 
     /**
@@ -96,9 +64,11 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        $post = Posts::findOrFail($id); // Busca o post pelo ID
+        $post = Posts::findOrFail($id);
 
-        $post->delete(); // Exclui o post
+        // Se quiser, pode remover a imagem do Supabase aqui também (opcional)
+
+        $post->delete();
 
         return redirect()->route('site.home')->with('success', 'Post deletado com sucesso!');
     }
