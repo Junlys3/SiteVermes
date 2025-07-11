@@ -39,11 +39,14 @@ class PostsController extends Controller
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
 
             $response = Http::withHeaders([
-                'apikey' => env('SUPABASE_KEY'),
-                'Authorization' => 'Bearer ' . env('SUPABASE_KEY'),
+                'apikey' => env('SUPABASE_API_KEY'),
+                'Authorization' => 'Bearer ' . env('SUPABASE_API_KEY'),
                 'Content-Type' => $file->getMimeType(),
-            ])->withBody($fileContent, $file->getMimeType())
-               ->put(env('SUPABASE_URL') . "/storage/v1/object/{$bucket}/{$fileName}");
+            ])->put(
+                env('SUPABASE_PROJECT_URL') . "/storage/v1/object/" . env('SUPABASE_BUCKET') . "/{$fileName}",
+                $fileContent
+            );
+
 
 
             if (!$response->successful()) {
