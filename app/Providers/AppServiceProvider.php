@@ -27,12 +27,5 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
             // Fallback para arquivos da pasta storage
-        Route::get('/storage/{path}', function ($path) {
-            $file = storage_path('app/public/' . $path);
-            if (!file_exists($file)) {
-                abort(404);
-            }
-            return Response::file($file);
-        })->where('path', '.*');
     }
 }
