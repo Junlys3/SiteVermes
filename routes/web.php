@@ -3,15 +3,51 @@
 use App\Http\Controllers\ImagemPostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
+use App\Models\Posts;
 use App\Http\Controllers\ImagemPostControllerController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
+
+
+// Rota temporária: copia as imagens de storage → public/uploads e atualiza o campo
+Route::get('/migrate-old-images', function () {
+    $uploadsDir = public_path('uploads');
+    if (! File::exists($uploadsDir)) {
+        File::makeDirectory($uploadsDir, 0755, true);
+    }
+
+    $migrated = 0;
+    $notFound = [];
+
+    $posts = Posts::whereNotNull('imagem')->get();
+    foreach ($posts as $post) {
+        $oldRel = $post->imagem;                // ex: "posts/abc123.jpg"
+        $oldFull = storage_path('app/public/' . $oldRel);
+        if (File::exists($oldFull)) {
+            $filename = basename($oldRel);
+            $newRel = 'uploads/' . $filename;   // ex: "uploads/abc123.jpg"
+            $newFull = public_path($newRel);
+
+            File::copy($oldFull, $newFull);
+            $post->imagem = $newRel;
+            $post->save();
+            $migrated++;
+        } else {
+            $notFound[] = $oldRel;
+        }
+    }
+
+    return response()->json([
+        'migrated'  => $migrated,
+        'not_found' => $notFound,
+    ]);
+});
+
+
 
 Route::get('/',[PostsController::class,'index'])->name('site.home');
  
-
-
-
 Route::get('/storage-link', function () {
     Artisan::call('storage:link');
     return 'Link simbólico criado com sucesso!';
