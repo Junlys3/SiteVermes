@@ -46,7 +46,19 @@ class PostsController extends Controller
         if ($request->hasFile('imagem')) {
             $file = $request->file('imagem');
             $filename = uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(base_path('public/uploads'), $filename);
+
+            // Caminho absoluto para a pasta public/uploads
+            $destinationPath = public_path('uploads');
+
+            // Garante que a pasta existe
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            // Move o arquivo para public/uploads
+            $file->move($destinationPath, $filename);
+
+            // Salva o caminho relativo no banco
             $pathimage = 'uploads/' . $filename;
         }
 
