@@ -56,7 +56,7 @@ class PostsController extends Controller
             }
 
             // DEBUG - antes de criar o post, veja os valores
-            // dd($request->name, $request->content, $fileName);
+             dd($request->name, $request->content, $fileName);
 
             posts::create([
                 'nome' => $request->name,
