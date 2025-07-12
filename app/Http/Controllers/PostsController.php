@@ -49,7 +49,7 @@ class PostsController extends Controller
                 }
             }
 
-            Posts::create([
+            posts::create([
                 'nome' => $request->name,
                 'text' => $request->content,
                 'imagem' => $fileName, // salva só o nome do arquivo no banco
