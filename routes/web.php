@@ -14,7 +14,13 @@ use Illuminate\Support\Facades\DB;
 
 
 
-
+Route::get('/teste-env', function() {
+    return [
+        'url' => env('SUPABASE_PROJECT_URL'),
+        'bucket' => env('SUPABASE_BUCKET'),
+        'key' => env('SUPABASE_SERVICE_ROLE_KEY') ? 'existe' : 'não existe',
+    ];
+});
 
 Route::get('/',[PostsController::class,'index'])->name('site.home');
  
