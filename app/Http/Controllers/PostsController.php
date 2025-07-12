@@ -38,14 +38,17 @@ class PostsController extends Controller
             $fileContent = file_get_contents($file->getPathname());
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
 
-            $response = Http::withHeaders([
+           $response = Http::withHeaders([
                 'apikey' => env('SUPABASE_API_KEY'),
                 'Authorization' => 'Bearer ' . env('SUPABASE_API_KEY'),
-                'Content-Type' => $file->getMimeType(),
-            ])->put(
-                env('SUPABASE_PROJECT_URL') . "/storage/v1/object/" . env('SUPABASE_BUCKET') . "/{$fileName}",
-                $fileContent
+            ])->attach(
+                'file',                // Nome do campo
+                fopen($file->getRealPath(), 'r'), // Conteúdo do arquivo como stream
+                $fileName              // Nome do arquivo
+            )->post(
+                env('SUPABASE_PROJECT_URL') . "/storage/v1/object/" . env('SUPABASE_BUCKET') . "/{$fileName}"
             );
+
 
 
 
