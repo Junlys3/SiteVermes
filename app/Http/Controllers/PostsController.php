@@ -24,6 +24,9 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+
+        dd($request->all());
+
         $request->validate([
             'name' => 'required|max:100',
             'content' => 'required|max:1000',
