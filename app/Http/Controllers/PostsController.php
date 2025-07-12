@@ -30,11 +30,13 @@ class PostsController extends Controller
                 'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 
+            $fileName = null;
+
             if ($request->hasFile('imagem')) {
                 $file = $request->file('imagem');
                 $fileContent = file_get_contents($file->getPathname());
                 $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
-                $bucket = env('SUPABASE_BUCKET'); // ex: 'uploads'
+                $bucket = env('SUPABASE_BUCKET');
 
                 $url = env('SUPABASE_PROJECT_URL') . "/storage/v1/object/{$bucket}/{$fileName}";
 
@@ -45,14 +47,21 @@ class PostsController extends Controller
                 ])->send('PUT', $url, ['body' => $fileContent]);
 
                 if (!$response->successful()) {
-                    return back()->withErrors(['upload' => 'Erro ao fazer upload na Supabase.']);
+                    // DEBUG
+                    // retorna com erro e mensagem da resposta da Supabase
+                    return back()->withErrors([
+                        'upload' => 'Erro ao fazer upload na Supabase: ' . $response->body()
+                    ]);
                 }
             }
+
+            // DEBUG - antes de criar o post, veja os valores
+            // dd($request->name, $request->content, $fileName);
 
             posts::create([
                 'nome' => $request->name,
                 'text' => $request->content,
-                'imagem' => $fileName, // salva só o nome do arquivo no banco
+                'imagem' => $fileName,
                 'id_user' => Auth::id(),
             ]);
 
