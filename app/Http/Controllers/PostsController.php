@@ -23,9 +23,8 @@ class PostsController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-
-        $request->validate([
+{
+    $request->validate([
         'name' => 'required|max:100',
         'content' => 'required|max:1000',
         'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
@@ -63,7 +62,7 @@ class PostsController extends Controller
     ]);
 
     return redirect()->route('site.home')->with('success', 'Post criado com sucesso!');
-    }
+}
 
     /**
      * Remove the specified resource from storage.
