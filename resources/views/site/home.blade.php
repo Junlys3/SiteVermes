@@ -8,7 +8,7 @@
             <div class="card-content white-text">
               <span class="card-title">{{$post->nome}}</span>
               @if ($post->imagem)
-                <img src="{{ env('SUPABASE_URL') . '/storage/v1/object/public/posts/' . $post->imagem }}" class="responsive-img" alt="Imagem do post">
+                <img src="{{ env('SUPABASE_PROJECT_URL') . '/storage/v1/object/public/uploads/' . $post->imagem }}" class="responsive-img" alt="Imagem do post">
               @endif
               <p>{{$post->text}}<br></p>
             </div>
