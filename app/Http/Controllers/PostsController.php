@@ -41,8 +41,8 @@ class PostsController extends Controller
                 $url = env('SUPABASE_PROJECT_URL') . "/storage/v1/object/{$bucket}/{$fileName}";
 
                 $response = Http::withHeaders([
-                    'apikey' => env('SUPABASE_API_KEY'),
-                    'Authorization' => 'Bearer ' . env('SUPABASE_API_KEY'),
+                    'apikey' => env('SUPABASE_SERVICE_ROLE_KEY'),
+                    'Authorization' => 'Bearer ' . env('SUPABASE_SERVICE_ROLE_KEY'),
                     'Content-Type' => $file->getMimeType(),
                 ])->send('PUT', $url, ['body' => $fileContent]);
 
