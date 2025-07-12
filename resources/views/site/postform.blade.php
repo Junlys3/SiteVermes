@@ -12,32 +12,35 @@
 
             <!-- Nome -->
             <div class="input-field">
-              <input id="name" type="text" name="name" class="validate" required>
-              <label for="name">Nome</label>
+                <input id="name" type="text" name="name" class="validate" required>
+                <label for="name">Nome</label>
             </div>
 
             <!-- Texto -->
             <div class="input-field">
-              <textarea id="content" name="content" class="materialize-textarea" required></textarea>
-              <label for="content">Texto</label>
+                <textarea id="content" name="content" class="materialize-textarea" required></textarea>
+                <label for="content">Texto</label>
             </div>
-   
-            <!-- Botão Enviar -->
-            <div class="card-action center-align">
-              <button type="submit" class="btn waves-effect waves-light">
-                <i class="material-icons left">send</i> Enviar
-              </button>
-              <div class="file-field input-field">
+
+            <!-- Upload de Imagem -->
+            <div class="file-field input-field">
                 <div class="btn">
                     <span>Imagem</span>
                     <input type="file" name="imagem">
                 </div>
-              <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text" placeholder="Upload de imagem">
-              </div>
-           </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Upload de imagem">
+                </div>
             </div>
-          </form>
+
+            <!-- Botão Enviar -->
+            <div class="card-action center-align">
+                <button type="submit" class="btn waves-effect waves-light">
+                    <i class="material-icons left">send</i> Enviar
+                </button>
+            </div>
+        </form>
+
         </div>
       </div>
     </div>
