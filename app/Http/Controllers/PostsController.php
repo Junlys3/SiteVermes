@@ -25,49 +25,44 @@ class PostsController extends Controller
     public function store(Request $request)
     {
 
-        dd($request->all());
-
         $request->validate([
-            'name' => 'required|max:100',
-            'content' => 'required|max:1000',
-            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        'name' => 'required|max:100',
+        'content' => 'required|max:1000',
+        'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ]);
 
-        $fileName = null;
-        $bucket = 'uploads'; // nome do bucket no Supabase, ajuste se precisar
+    $fileName = null;
 
-        if ($request->hasFile('imagem')) {
-            $file = $request->file('imagem');
-            $fileContent = file_get_contents($file->getPathname());
-            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+    if ($request->hasFile('imagem')) {
+        $file = $request->file('imagem');
+        $fileContent = file_get_contents($file->getRealPath());
+        $uniqueName = uniqid() . '.' . $file->getClientOriginalExtension();
+        $bucket = env('SUPABASE_BUCKET');
 
-           $response = Http::withHeaders([
-                'apikey' => env('SUPABASE_API_KEY'),
-                'Authorization' => 'Bearer ' . env('SUPABASE_API_KEY'),
-            ])->attach(
-                'file',                // Nome do campo
-                fopen($file->getRealPath(), 'r'), // Conteúdo do arquivo como stream
-                $fileName              // Nome do arquivo
-            )->post(
-                env('SUPABASE_PROJECT_URL') . "/storage/v1/object/" . env('SUPABASE_BUCKET') . "/{$fileName}"
-            );
+        $response = Http::withHeaders([
+            'apikey' => env('SUPABASE_API_KEY'),
+            'Authorization' => 'Bearer ' . env('SUPABASE_API_KEY'),
+            'Content-Type' => $file->getMimeType(),
+        ])->put(
+            env('SUPABASE_PROJECT_URL') . "/storage/v1/object/public/{$bucket}/{$uniqueName}",
+            $fileContent
+        );
 
-
-
-
-            if (!$response->successful()) {
-                return back()->withErrors(['upload' => 'Erro ao fazer upload na Supabase.']);
-            }
+        if (!$response->successful()) {
+            dd('Erro Supabase', $response->status(), $response->body());
         }
 
-        posts::create([
-            'nome' => $request->name,
-            'text' => $request->content,
-            'imagem' => $fileName, // salva só o nome do arquivo no DB
-            'id_user' => Auth::id(),
-        ]);
+        $fileName = $uniqueName;
+    }
 
-        return redirect()->route('site.home')->with('success', 'Post criado com sucesso!');
+    posts::create([
+        'nome' => $request->name,
+        'text' => $request->content,
+        'imagem' => $fileName,
+        'id_user' => Auth::id()
+    ]);
+
+    return redirect()->route('site.home')->with('success', 'Post criado com sucesso!');
     }
 
     /**
