@@ -35,7 +35,7 @@
 
         main {
             flex: 1;
-            padding-left: 300px; /* Espaço para o sidenav */
+            padding-left: 300px; /* Espaço para o sidenav no desktop */
         }
 
         @media(max-width: 992px) {
@@ -44,7 +44,7 @@
             }
         }
 
-        /* Rodapé no sidebar */
+        /* Rodapé no sidebar (desktop) */
         .sidebar-footer {
             position: absolute;
             bottom: 0;
@@ -54,12 +54,28 @@
             font-size: 0.9rem;
         }
 
+        /* Rodapé no mobile */
+        .mobile-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffe070;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 0.9rem;
+            z-index: 1000;
+        }
+
         /* Paginação fixa */
         .fixed-pagination {
             position: fixed;
-            bottom: 20px;
-            right: 50%;
-            transform: translateX(50%);
+            bottom: 60px; /* Ajustado para não sobrepor footer mobile */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffe070; /* pastel-yellow */
+            padding: 10px 20px;
+            border-radius: 8px;
             z-index: 999;
         }
     </style>
@@ -85,17 +101,33 @@
             @endauth
 
             <!-- Rodapé no sidebar -->
-            <li class="sidebar-footer pastel-blue-text center-align" style="margin-top: auto;">
+            <li class="sidebar-footer pastel-blue-text">
                 &copy; 2025 Balacobaco - Todos os direitos reservados
             </li>
-
         </ul>
 
         <!-- Botão para abrir o sidenav no mobile -->
-        <a href="#" data-target="slide-out" class="sidenav-trigger btn pastel-yellow pastel-blue-text" style="position: fixed; top: 15px; left: 15px; z-index
+        <a href="#" data-target="slide-out" class="sidenav-trigger btn pastel-yellow pastel-blue-text" style="position: fixed; top: 15px; left: 15px; z-index: 1001;">
+            <i class="material-icons">menu</i>
+        </a>
 
-         <footer class="page-footer pastel-yellow pastel-blue-text hide-on-large-only">
-            <div class="container center-align">
-                &copy; 2025 Balacobaco - Todos os direitos reservados
-            </div>
-        </footer>
+        <main class="container">
+            @yield('content')
+        </main>
+    </div>
+
+    <!-- Rodapé para mobile -->
+    <footer class="mobile-footer pastel-blue-text hide-on-large-only">
+        &copy; 2025 Balacobaco - Todos os direitos reservados
+    </footer>
+
+    <!-- Materialize JS (CDN) --->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.sidenav');
+            M.Sidenav.init(elems);
+        });
+    </script>
+</body>
+</html>
