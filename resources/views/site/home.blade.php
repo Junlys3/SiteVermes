@@ -58,8 +58,12 @@
 
     @media (max-width: 600px) {
       form {
-        width: 90% !important;       /* Form ocupa quase toda a largura */
-        margin: 0 auto !important;   /* Centraliza o form */
+        width: 100% !important;        /* Ocupa toda a largura disponível */
+        max-width: 100vw !important;   /* Nunca ultrapassa a largura da viewport */
+        box-sizing: border-box;        /* Considera padding e border na largura */
+        padding-left: 10px;            /* Pequeno padding interno */
+        padding-right: 10px;
+        margin: 0 auto !important;
       }
 
       input[type="text"],
@@ -67,19 +71,19 @@
       input[type="password"],
       textarea,
       select {
-        font-size: 1.1rem !important;  /* Campos com fonte maior para facilitar leitura */
+        font-size: 1.2rem !important;  /* Fonte maior para facilitar leitura */
       }
 
       .input-field {
-        margin-bottom: 1.5rem !important; /* Espaçamento maior entre campos */
+        margin-bottom: 1.8rem !important; /* Espaçamento maior entre campos */
       }
 
       textarea.materialize-textarea {
-        min-height: 100px; /* Aumenta altura do textarea */
+        min-height: 120px; /* Aumenta altura do textarea */
       }
 
       .file-field.input-field {
-        margin-bottom: 2rem !important; /* Espaço maior para upload */
+        margin-bottom: 2.5rem !important; /* Espaço maior para upload */
       }
     }
 </style>
