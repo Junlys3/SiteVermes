@@ -86,9 +86,20 @@
         /* Botão do menu mobile: visível, clicável, afastado dos posts */
         .sidenav-trigger {
             position: fixed !important;
-            top: 60px !important; /* afastado do topo */
-            left: 15px !important;
-            z-index: 1000 !important; /* acima de tudo */
+            top: 60px !important; /* alinhado com o topo do sidebar */
+            left: 0 !important; /* colado na esquerda */
+            z-index: 1000 !important;
+            background-color: #ffe070 !important; /* mesma cor pastel-yellow do sidebar */
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            padding: 10px 12px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sidenav-trigger i.material-icons {
+            color: #a3e8ff !important; /* azul claro */
         }
     </style>
     @stack('styles')
