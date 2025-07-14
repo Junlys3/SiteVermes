@@ -24,6 +24,7 @@
                   </button>
                 </form>
               @endif
+              <a href="{{ route('site.post_details', $post->id) }}" class="btn waves-effect waves-light blue">Ver Detalhes</a>
             </div>
           </div>
         </div>
