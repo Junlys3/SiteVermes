@@ -85,10 +85,17 @@
             @endauth
 
             <!-- Rodapé no sidebar -->
-            <li class="sidebar-footer pastel-blue-text">
+            <li class="sidebar-footer pastel-blue-text center-align" style="margin-top: auto;">
                 &copy; 2025 Balacobaco - Todos os direitos reservados
             </li>
+
         </ul>
 
         <!-- Botão para abrir o sidenav no mobile -->
         <a href="#" data-target="slide-out" class="sidenav-trigger btn pastel-yellow pastel-blue-text" style="position: fixed; top: 15px; left: 15px; z-index
+
+         <footer class="page-footer pastel-yellow pastel-blue-text hide-on-large-only">
+            <div class="container center-align">
+                &copy; 2025 Balacobaco - Todos os direitos reservados
+            </div>
+        </footer>

@@ -3,31 +3,31 @@
 @section('content')
   <div class="row container"> 
     @foreach($posts as $post)
-        <div class="col s12 m6">
-          <div class="card blue-grey darken-1">
-            <div class="card-content white-text">
-              <span class="card-title">{{$post->nome}}</span>
-              @if ($post->imagem)
-                <img src="{{ env('SUPABASE_PROJECT_URL') . '/storage/v1/object/public/uploads/' . $post->imagem }}" class="responsive-img" alt="Imagem do post">
-              @endif
-              <p>{{$post->text}}<br></p>
-            </div>
-            <div class="card-action">
-              <p>{{$post->name}}</p>
-              <p>Autor: {{$post->user->name ?? 'Usuário desconhecido'}}</p>
-              @if($post->user == auth()->user())
-                <form action="{{route('site.delete', $post->id)}}" method="POST">
-                  @csrf
-                  @method('DELETE')
-                  <button class="btn waves-effect waves-light red" type="submit" name="action">Excluir
-                    <i class="material-icons right">delete</i>
-                  </button>
-                </form>
-              @endif
-              <a href="{{ route('site.postdetails', $post->id) }}" class="btn waves-effect waves-light blue">Ver Detalhes</a>
-            </div>
+      <div class="col s12 m6">
+        <div class="card blue-grey darken-1">
+          <div class="card-content white-text">
+            <span class="card-title">{{$post->nome}}</span>
+            @if ($post->imagem)
+              <img src="{{ env('SUPABASE_PROJECT_URL') . '/storage/v1/object/public/uploads/' . $post->imagem }}" class="responsive-img" alt="Imagem do post">
+            @endif
+            <p>{{$post->text}}<br></p>
+          </div>
+          <div class="card-action">
+            <p>{{$post->name}}</p>
+            <p>Autor: {{$post->user->name ?? 'Usuário desconhecido'}}</p>
+            @if($post->user == auth()->user())
+              <form action="{{route('site.delete', $post->id)}}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button class="btn waves-effect waves-light red" type="submit" name="action">Excluir
+                  <i class="material-icons right">delete</i>
+                </button>
+              </form>
+            @endif
+            <a href="{{ route('site.postdetails', $post->id) }}" class="btn waves-effect waves-light blue">Ver Detalhes</a>
           </div>
         </div>
+      </div>
     @endforeach
   </div> 
 
@@ -57,7 +57,7 @@
 
   .card-content p {
     word-wrap: break-word;      /* Quebra palavras muito longas */
-    overflow-wrap: break-word;  /* Mesma função, compatível com mais browsers */
+    overflow-wrap: break-word;  /* Compatível com mais browsers */
   }
 
   /* Paginação fixa na parte inferior central */
