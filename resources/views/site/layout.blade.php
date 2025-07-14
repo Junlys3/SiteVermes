@@ -27,12 +27,6 @@
             color: white !important;
         }
 
-        .color-box {
-            height: 150px;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-
         .site-wrapper {
             min-height: 100vh;
             display: flex;
@@ -48,6 +42,25 @@
             main {
                 padding-left: 0; /* Remove espaço em telas pequenas */
             }
+        }
+
+        /* Rodapé no sidebar */
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        /* Paginação fixa */
+        .fixed-pagination {
+            position: fixed;
+            bottom: 20px;
+            right: 50%;
+            transform: translateX(50%);
+            z-index: 999;
         }
     </style>
     @stack('styles')
@@ -70,31 +83,12 @@
             @else
                 <li><a href="{{ route('site.login') }}" class="pastel-blue-text"><i class="material-icons">login</i>Login</a></li>
             @endauth
+
+            <!-- Rodapé no sidebar -->
+            <li class="sidebar-footer pastel-blue-text">
+                &copy; 2025 Balacobaco - Todos os direitos reservados
+            </li>
         </ul>
 
         <!-- Botão para abrir o sidenav no mobile -->
-        <a href="#" data-target="slide-out" class="sidenav-trigger btn pastel-yellow pastel-blue-text" style="position: fixed; top: 15px; left: 15px; z-index: 999;">
-            <i class="material-icons">menu</i>
-        </a>
-
-        <main class="container">
-            @yield('content')
-        </main>
-
-        <footer class="page-footer pastel-yellow pastel-blue-text">
-            <div class="container center-align">
-                &copy; 2025 Balacobaco - Todos os direitos reservados
-            </div>
-        </footer>
-    </div>
-
-    <!-- Materialize JS (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('.sidenav');
-            M.Sidenav.init(elems);
-        });
-    </script>
-</body>
-</html>
+        <a href="#" data-target="slide-out" class="sidenav-trigger btn pastel-yellow pastel-blue-text" style="position: fixed; top: 15px; left: 15px; z-index

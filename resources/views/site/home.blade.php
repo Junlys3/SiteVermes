@@ -13,8 +13,8 @@
               <p>{{$post->text}}<br></p>
             </div>
             <div class="card-action">
-              <p> {{$post->name}} </p>
-              <p> Autor: {{$post->user->name ?? 'Usuário desconhecido'}} </p>
+              <p>{{$post->name}}</p>
+              <p>Autor: {{$post->user->name ?? 'Usuário desconhecido'}}</p>
               @if($post->user == auth()->user())
                 <form action="{{route('site.delete', $post->id)}}" method="POST">
                   @csrf
@@ -28,12 +28,11 @@
             </div>
           </div>
         </div>
-      </div>
     @endforeach
   </div> 
 
-  {{-- Paginação --}}
-  <div class="row center">
+  {{-- Paginação fixa --}}
+  <div class="fixed-pagination z-depth-3">
     {{ $posts->links('vendor.pagination.default') }}
   </div>
 
@@ -44,8 +43,6 @@
       <i class="material-icons">add</i>
     </a>
   @endauth
-  
-
 @endsection
 
 @push('styles')
@@ -57,9 +54,27 @@
     right: 30px;
     z-index: 1000; /* Para ficar na frente */
   }
+
   .card-content p {
     word-wrap: break-word;      /* Quebra palavras muito longas */
     overflow-wrap: break-word;  /* Mesma função, compatível com mais browsers */
   }
-</style> 
+
+  /* Paginação fixa na parte inferior central */
+  .fixed-pagination {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffe070; /* pastel-yellow */
+    padding: 10px 20px;
+    border-radius: 8px;
+    z-index: 999;
+  }
+
+  /* Deixa a paginação mais bonita */
+  .fixed-pagination .pagination {
+    margin: 0;
+  }
+</style>
 @endpush
