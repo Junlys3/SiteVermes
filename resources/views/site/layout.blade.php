@@ -41,35 +41,41 @@
 
         main {
             flex: 1;
+            padding-left: 300px; /* Espaço para o sidenav */
+        }
+
+        @media(max-width: 992px) {
+            main {
+                padding-left: 0; /* Remove espaço em telas pequenas */
+            }
         }
     </style>
     @stack('styles')
 </head>
 <body class="pastel-blue">
     <div class="site-wrapper">
-        <nav class="pastel-yellow z-depth-1">
-            <div class="nav-wrapper container">
-                <a href="#" class="brand-logo pastel-blue-text">Balacobaco</a>
-                <ul id="nav-mobile" class="right">
-                    <li><a href="{{ route('site.home') }}" class="pastel-blue-text">Home</a></li>
-                    <li><a href="#" class="pastel-blue-text">Posts</a></li>
-                    <li><a href="#" class="pastel-blue-text">Sobre</a></li>
-                    @auth
-                        <li>
-                            <a class="dropdown-trigger pastel-blue-text" href="#!" data-target="dropdown1">
-                                <i class="material-icons left">account_circle</i>{{ auth()->user()->name }}
-                            </a>
-                        </li>
-                        <ul id="dropdown1" class="dropdown-content">
-                            <li><a href="#!">Dashboard</a></li>
-                            <li><a href="{{ route('site.logout') }}">Logout</a></li>
-                        </ul>
-                    @else
-                        <li><a href="{{ route('site.login') }}" class="pastel-blue-text">Login</a></li>
-                    @endauth
-                </ul>
-            </div>
-        </nav>
+        <!-- Menu lateral -->
+        <ul id="slide-out" class="sidenav sidenav-fixed pastel-yellow">
+            <li class="center-align" style="margin-top: 20px;">
+                <h5 class="pastel-blue-text">Balacobaco</h5>
+            </li>
+            <li><div class="divider"></div></li>
+            <li><a href="{{ route('site.home') }}" class="pastel-blue-text"><i class="material-icons">home</i>Home</a></li>
+            <li><a href="#" class="pastel-blue-text"><i class="material-icons">article</i>Posts</a></li>
+            <li><a href="#" class="pastel-blue-text"><i class="material-icons">info</i>Sobre</a></li>
+            @auth
+                <li><a href="#!" class="pastel-blue-text"><i class="material-icons">account_circle</i>{{ auth()->user()->name }}</a></li>
+                <li><a href="#!" class="pastel-blue-text"><i class="material-icons">dashboard</i>Dashboard</a></li>
+                <li><a href="{{ route('site.logout') }}" class="pastel-blue-text"><i class="material-icons">exit_to_app</i>Logout</a></li>
+            @else
+                <li><a href="{{ route('site.login') }}" class="pastel-blue-text"><i class="material-icons">login</i>Login</a></li>
+            @endauth
+        </ul>
+
+        <!-- Botão para abrir o sidenav no mobile -->
+        <a href="#" data-target="slide-out" class="sidenav-trigger btn pastel-yellow pastel-blue-text" style="position: fixed; top: 15px; left: 15px; z-index: 999;">
+            <i class="material-icons">menu</i>
+        </a>
 
         <main class="container">
             @yield('content')
@@ -86,8 +92,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('.dropdown-trigger');
-            M.Dropdown.init(elems, { constrainWidth: false });
+            var elems = document.querySelectorAll('.sidenav');
+            M.Sidenav.init(elems);
         });
     </script>
 </body>
