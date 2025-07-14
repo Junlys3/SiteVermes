@@ -55,5 +55,32 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
+
+    @media (max-width: 600px) {
+      form {
+        width: 90% !important;       /* Form ocupa quase toda a largura */
+        margin: 0 auto !important;   /* Centraliza o form */
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      textarea,
+      select {
+        font-size: 1.1rem !important;  /* Campos com fonte maior para facilitar leitura */
+      }
+
+      .input-field {
+        margin-bottom: 1.5rem !important; /* Espaçamento maior entre campos */
+      }
+
+      textarea.materialize-textarea {
+        min-height: 100px; /* Aumenta altura do textarea */
+      }
+
+      .file-field.input-field {
+        margin-bottom: 2rem !important; /* Espaço maior para upload */
+      }
+    }
 </style>
 @endpush

@@ -130,9 +130,11 @@
         </ul>
 
         <!-- Botão para abrir o sidenav no mobile -->
-        <a href="#" data-target="slide-out" class="sidenav-trigger btn pastel-yellow pastel-blue-text" title="Abrir menu" aria-label="Abrir menu">
-            <i class="material-icons">menu</i>
-        </a>
+        <a href="#" data-target="slide-out" 
+            class="sidenav-trigger btn pastel-yellow pastel-blue-text hide-on-large-only" 
+            style="position: fixed; top: 15px; left: 15px; z-index: 1001;">
+                <i class="material-icons">menu</i>
+            </a>
 
         <main class="container">
             @yield('content')
