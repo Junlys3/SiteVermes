@@ -34,9 +34,10 @@ Route::get('/storage-link', function () {
 Route::get('/postform', function () {
     return view('site.postform');
 })->middleware('auth')->name('site.form');
-
-
 Route::post('/posts',[PostsController::class,'store'])->name('site.store'); 
+Route::get('/postdetails/{id}', [PostDetails::class, 'PostDetails'])->name('site.postdetails'); // Rota para detalhes do post
+
+
 
 
 //Rotas login,logout
