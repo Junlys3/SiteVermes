@@ -42,7 +42,7 @@
             <div>
 
             </div>
-            @if ($Comments->isEmpty())
+            @if ($Comments->exists())
                 <p class="center-align">Nenhum comentário ainda.</p>
             @else
                 <h5 class="center-align">Comentários</h5>
