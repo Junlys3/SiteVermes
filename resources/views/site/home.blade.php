@@ -32,7 +32,7 @@
     @endforeach
   </div>
 
-  {{-- Botão flutuante para adicionar novo post. --}}
+  {{-- Botão flutuante para adicionar novo post.. --}}
   @auth
     <a href="{{ route('site.form') }}" 
        class="btn-floating btn-large waves-effect waves-light red fixed-add-btn">
