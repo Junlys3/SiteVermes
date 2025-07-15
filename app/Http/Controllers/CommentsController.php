@@ -27,7 +27,7 @@ class CommentsController extends Controller
         ]);
     
 
-         $comments = CommentsPost::where('post_id', $request->id)->with('user')->get(); // Obtém os comentários do post com os usuários
+         $comments = CommentsPost::where('id_post', $id)->with('user')->get(); // Obtém os comentários do post com os usuários
 
          return view('site.postdetails', compact('comments')); // Retorna a view com os comentários
     }

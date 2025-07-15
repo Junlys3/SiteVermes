@@ -11,7 +11,7 @@ class CommentsPost extends Model
 
 
     protected $table = 'commentsposts';
-    
+
     protected $fillable = [
         'id',
         'text',
