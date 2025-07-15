@@ -39,6 +39,28 @@
             <div class="card-action">
                 <a href="{{ route('site.home') }}" class="blue-text text-darken-2">← Voltar para a home</a>
             </div>
+            <div>
+
+            </div>
+            @if ($Comments->isEmpty())
+                <p class="center-align">Nenhum comentário ainda.</p>
+            @else
+                <h5 class="center-align">Comentários</h5>
+                <ul class="collection">
+                    @foreach ($Comments as $comment)
+                        <li class="collection-item">
+                            <span class="comment-user">{{ $comment->user->name }}:</span>
+                            <span class="comment-text">{{ $comment->text }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+
+            <form action="{{route('site.postcomments', compact('post->id'))}}" method="POST">
+                @csrf
+                <input type="text" name="comment" id="comment" placeholder="Deixe um comentário" class="input-field">
+                <button type="submit" class="btn">Comentar</button>
+            </form>
         </div>
     </div>
 

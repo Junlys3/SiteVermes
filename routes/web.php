@@ -6,6 +6,7 @@ use App\Http\Controllers\PostsController;
 use App\Models\posts;
 use App\Http\Controllers\ImagemPostControllerController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\CommentsController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -14,21 +15,9 @@ use App\Http\Controllers\PostDetails;
 
 
 
-Route::get('/teste-env', function() {
-    return [
-        'url' => env('SUPABASE_PROJECT_URL'),
-        'bucket' => env('SUPABASE_BUCKET'),
-        'key' => env('SUPABASE_SERVICE_ROLE_KEY') ? 'existe' : 'não existe',
-    ];
-});
+
 
 Route::get('/',[PostsController::class,'index'])->name('site.home');
- 
-Route::get('/storage-link', function () {
-    Artisan::call('storage:link');
-    return 'Link simbólico criado com sucesso!';
-});
-
 
 
 Route::get('/postform', function () {
@@ -37,7 +26,7 @@ Route::get('/postform', function () {
 Route::post('/posts',[PostsController::class,'store'])->name('site.store'); 
 Route::get('/postdetails/{id}', [PostDetails::class, 'PostDetails'])->name('site.postdetails'); // Rota para detalhes do post
 
-
+Route::post('/postcomments/{id}', [CommentsController::class, 'postCommentsCreate']); // Rota para exibir comentários do post
 
 
 //Rotas login,logout
