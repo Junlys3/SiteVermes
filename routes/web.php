@@ -26,7 +26,7 @@ Route::get('/postform', function () {
 Route::post('/posts',[PostsController::class,'store'])->name('site.store'); 
 Route::get('/postdetails/{id}', [PostDetails::class, 'PostDetails'])->name('site.postdetails'); // Rota para detalhes do post
 
-Route::post('/postcomments/{id}', [CommentsController::class, 'postCommentsCreate']); // Rota para exibir comentários do post
+Route::post('/postcomments/{id}', [CommentsController::class, 'postCommentsCreate'])->name('postcomments'); // Rota para exibir comentários do post
 
 
 //Rotas login,logout

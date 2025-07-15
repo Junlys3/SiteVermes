@@ -12,7 +12,7 @@ class CommentsController extends Controller
 
 
 
-    public function postCommentsCreate(Request $request)
+    public function postCommentsCreate(Request $request, $id)
     {
         // Lógica para criar um novo comentário
 
@@ -21,7 +21,7 @@ class CommentsController extends Controller
         ]);
 
         CommentsPost::create([
-            'post_id' => $request->id, // Certifique-se de que o ID do post está sendo passado corretamente
+            'post_id' => $id, // Certifique-se de que o ID do post está sendo passado corretamente
             'user_id' => auth()->id(), // Supondo que o usuário esteja autenticado
             'comment' => $request->comment,
         ]);

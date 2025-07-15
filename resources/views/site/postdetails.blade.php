@@ -56,7 +56,7 @@
                 </ul>
             @endif
 
-            <form action="{{route('site.postcomments', $post->id)}}" method="POST">
+            <form action="{{route('postcomments', $post->id)}}" method="POST">
                 @csrf
                 <input type="text" name="comment" id="comment" placeholder="Deixe um comentário" class="input-field">
                 <button type="submit" class="btn">Comentar</button>
