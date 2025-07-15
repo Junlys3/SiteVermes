@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CommentsPost; // Certifique-se de que o modelo posts está importado
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\posts;
 
 class CommentsController extends Controller
 {
@@ -26,10 +26,10 @@ class CommentsController extends Controller
             'text' => $request->comment,
         ]);
     
-
+         $post = posts::findOrFail($id);
          $comments = CommentsPost::where('id_post', $id)->with('user')->get(); // Obtém os comentários do post com os usuários
 
-         return view('site.postdetails', compact('comments')); // Retorna a view com os comentários
+         return view('site.postdetails', compact('comments', 'post')); // Retorna a view com os comentários
     }
 
       
