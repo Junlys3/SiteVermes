@@ -42,7 +42,7 @@
             <div>
 
             </div>
-            @if ($post->comments->count())
+            @if (!isset($post) || $post->comments->isEmpty())
                 <p class="center-align">Nenhum comentário ainda.</p>
             @else
                 <h5 class="center-align">Comentários</h5>
