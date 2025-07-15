@@ -29,7 +29,7 @@ class CommentsController extends Controller
          $post = posts::findOrFail($id);
          $comments = CommentsPost::where('id_post', $id)->with('user')->get(); // Obtém os comentários do post com os usuários
 
-         return view('site.postdetails', compact('comments', 'post')); // Retorna a view com os comentários
+         return view('site.postdetails', compact('post')); // Retorna a view com os comentários
     }
 
       
