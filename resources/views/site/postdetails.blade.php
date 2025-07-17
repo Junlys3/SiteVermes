@@ -51,6 +51,12 @@
                         <li class="collection-item">
                             <span class="comment-user">{{ $comment->user->name }}:</span>
                             <span class="comment-text">{{ $comment->text }}</span>
+                            @if( $comment->id_user === auth()->id()) 
+                                <form action="{{ route('deletecomment', $comment->id) }}" method="POST" class="right">
+                                    @csrf
+                                    <button type="submit" class="btn red lighten-1 btn-small">Excluir</button>
+                                </form>
+                            @endif
                         </li>
                     @endforeach
                 </ul>
