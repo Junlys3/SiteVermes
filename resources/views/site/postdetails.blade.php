@@ -54,7 +54,6 @@
                             @if($post->user_id === auth()->id())
                                 <form action="{{ route('deletecomment', $comment->id) }}" method="POST" class="right">
                                     @csrf
-                                    @method('DELETE')
                                     <button type="submit" class="btn red lighten-1 btn-small">Excluir</button>
                                 </form>
                             @endif
