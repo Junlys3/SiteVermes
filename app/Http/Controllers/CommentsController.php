@@ -21,19 +21,23 @@ class CommentsController extends Controller
         ]);
 
         CommentsPost::create([
-            'id_post' => $id, // Certifique-se de que o ID do post está sendo passado corretamente
+            'id_post' => $id, // Certifique-se de que o ID do post está sendo passado corretamente, recebe o ID do post
             'id_user' => auth()->id(), // Supondo que o usuário esteja autenticado
             'text' => $request->comment,
         ]);
     
-         $post = posts::findOrFail($id);
-         $comments = CommentsPost::where('id_post', $id)->with('user')->get(); // Obtém os comentários do post com os usuários
+         $post = posts::findOrFail($id); // Obtém o post para o qual o comentário foi criado
+
 
          return view('site.postdetails', compact('post')); // Retorna a view com os comentários
     }
 
       
-    
+    public function deleteComment($id){
+        $comment = CommentsPost::findOrFail($id); // Encontra o comentário pelo ID
+        $comment->delete(); // Deleta o comentário
+        return redirect()->back(); // Redireciona de volta
+    }
 
     public function postComments($id)
     {
