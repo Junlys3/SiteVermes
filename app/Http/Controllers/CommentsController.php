@@ -29,7 +29,8 @@ class CommentsController extends Controller
          $post = posts::findOrFail($id); // Obtém o post para o qual o comentário foi criado
 
 
-         return view('site.postdetails', compact('post')); // Retorna a view com os comentários
+         return redirect()->route('site.postdetails', $id);
+
     }
 
       
