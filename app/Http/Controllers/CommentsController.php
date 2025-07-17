@@ -22,7 +22,7 @@ class CommentsController extends Controller
 
         CommentsPost::create([
             'id_post' => $id, // Certifique-se de que o ID do post está sendo passado corretamente, recebe o ID do post
-            'id_user' => auth()->id(), // Supondo que o usuário esteja autenticado
+            'id_user' => Auth::id(), // Supondo que o usuário esteja autenticado
             'text' => $request->comment,
         ]);
     
