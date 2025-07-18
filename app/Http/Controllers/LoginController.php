@@ -21,6 +21,10 @@ class LoginController extends Controller
             $request->session()->regenerate();
             return redirect()->route('site.home')->with('success', 'Login successful!');
         }
+
+        return redict()->withErrors([
+            'login' => "Email e/ou senha incorretos"
+        ])->withInput();
     }
 
     public function logout(Request $request)

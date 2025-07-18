@@ -47,9 +47,11 @@
 
   <div class="container" style="margin-top: 50px;">
     <div class="row">
+      @error('login')
+          <p class="red-text center-align">{{ $message }}</p>
+      @enderror
       <form action="" method="POST" class="col s12 m6 offset-m3">
         @csrf
-
         <div class="card">
           <div class="card-content">
             <span class="card-title center-align">Login</span>
