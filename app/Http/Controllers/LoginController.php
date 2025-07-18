@@ -22,7 +22,7 @@ class LoginController extends Controller
             return redirect()->route('site.home')->with('success', 'Login successful!');
         }
 
-        return redict()->withErrors([
+        return redirect()->withErrors([
             'login' => "Email e/ou senha incorretos"
         ])->withInput();
     }
