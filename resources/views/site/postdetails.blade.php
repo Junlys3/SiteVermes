@@ -79,8 +79,22 @@
             $('form[name="form-comments"]').submit(function(event){
                    event.preventDefault();
 
-                   var commentText = $(this).find('input#comment').val();
-                   alert("teste " + commentText);
+                   $.ajax({
+                        url: "{{ route('postcomments') }} ",
+                        type: "post",
+                        data: $(this).serialize(),
+                        dataType: 'json',
+                        success: function(response){
+                            console.log(response);
+                        }
+
+                        if(response.success === true){
+                            //Redirecionar
+                            window.location.href = "{{ route('postcomments') }}";
+                        }
+
+ 
+                   });
             });
         });
     </script>

@@ -16,6 +16,7 @@ class CommentsController extends Controller
     {
         // Lógica para criar um novo comentário
 
+        
         $request->validate([
             'comment' => 'required|string|max:255',
         ]);
@@ -28,8 +29,9 @@ class CommentsController extends Controller
     
          $post = posts::findOrFail($id); // Obtém o post para o qual o comentário foi criado
 
-
-         return redirect()->route('site.postdetails', $id);
+         $comment['success'] = true;
+         return response()->json($comment);
+         //return redirect()->route('site.postdetails', $id);
 
     }
 
