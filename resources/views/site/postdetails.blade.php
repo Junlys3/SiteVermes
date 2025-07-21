@@ -78,7 +78,9 @@
         $(function(){
             $('form[name="form-comments"]').submit(function(event){
                    event.preventDefault();
-                   alert("teste");
+
+                   var commentText = $(this).find('input#comment').val();
+                   alert("teste " + commentText);
             });
         });
     </script>
