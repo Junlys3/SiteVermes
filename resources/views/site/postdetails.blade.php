@@ -62,7 +62,7 @@
                 </ul>
             @endif
 
-            <form action="{{route('postcomments', $post->id)}}" method="POST">
+            <form class="form-comments" name="form-comments">
                 @csrf
                 <input type="text" name="comment" id="comment" placeholder="Deixe um comentário" class="input-field">
                 <button type="submit" class="btn">Comentar</button>
@@ -73,6 +73,15 @@
     <!-- Materialize JS (com dependência do jQuery) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+    <script>
+        $(function(){
+            $('form[name="form-comments"]').submit(function(event){
+                   event.preventDefault();
+                   alert("teste");
+            });
+        });
+    </script>
 
 </body>
 </html>
