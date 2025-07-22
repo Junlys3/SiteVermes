@@ -98,7 +98,6 @@
                         success: function(response){
                             console.log(response);
                             if(response.success === true){
-                                alert('Comentário adicionado com sucesso!');
                                 //Redirecionar
                                 let novoComentario = `
                                     <li class="collection-item">
