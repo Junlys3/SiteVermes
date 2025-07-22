@@ -46,7 +46,7 @@
                 <p class="center-align">Nenhum comentário ainda.</p>
             @else
                 <h5 class="center-align">Comentários</h5>
-                <ul class="collection">
+                <ul class="collection" id="comments-list">
                     @foreach ($post->comments  as $comment)
                         <li class="collection-item">
                             <span class="comment-user">{{ $comment->user->name }}:</span>
