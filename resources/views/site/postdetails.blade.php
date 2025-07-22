@@ -62,7 +62,7 @@
                 </ul>
             @endif
 
-            <form class="form-comments" name="form-comments">
+            <form class="form-comments" name="form-comments" data-post-id="{{ $post->id }}>
                 @csrf
                 <input type="text" name="comment" id="comment" placeholder="Deixe um comentário" class="input-field">
                 <button type="submit" class="btn">Comentar</button>
@@ -79,8 +79,10 @@
             $('form[name="form-comments"]').submit(function(event){
                    event.preventDefault();
 
+                   let postId = $(this).data('post-id');
+                   let actionUrl = "/postcomments/" + postId;
                    $.ajax({
-                        url: "{{ route('postcomments') }} ",
+                        url: actionUrl,
                         type: "post",
                         data: $(this).serialize(),
                         dataType: 'json',
