@@ -88,12 +88,13 @@
                         dataType: 'json',
                         success: function(response){
                             console.log(response);
+                            if(response.success === true){
+                                //Redirecionar
+                                window.location.href = "actionUrl";
+                        }
                         }
 
-                        if(response.success === true){
-                            //Redirecionar
-                            window.location.href = "{{ route('postcomments') }}";
-                        }
+                        
 
  
                    });
