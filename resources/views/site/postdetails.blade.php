@@ -62,7 +62,7 @@
                 </ul>
             @endif
 
-            <form class="form-comments" name="form-comments" data-post-id="{{ $post->id }}>
+            <form class="form-comments" name="form-comments" data-post-id="{{ $post->id }}">
                 @csrf
                 <input type="text" name="comment" id="comment" placeholder="Deixe um comentário" class="input-field">
                 <button type="submit" class="btn">Comentar</button>
@@ -76,6 +76,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
     <script>
         $(function(){
+
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
             $('form[name="form-comments"]').submit(function(event){
                    event.preventDefault();
 
@@ -89,8 +96,8 @@
                         success: function(response){
                             console.log(response);
                             if(response.success === true){
+                                alert('Comentário adicionado com sucesso!');
                                 //Redirecionar
-                                window.location.href = "actionUrl";
                         }
                         }
 
