@@ -98,6 +98,18 @@
                             if(response.success === true){
                                 alert('Comentário adicionado com sucesso!');
                                 //Redirecionar
+                                let novoComentario = `
+                                    <li class="collection-item">
+                                        <span class="comment-user">${response.comment.user_name}:</span>
+                                        <span class="comment-text">${response.comment.text}</span>
+                                    </li>
+                                `;
+
+                                // Adiciona esse comentário no final da lista
+                                $('#comments-list').append(novoComentario);
+
+                                // Limpa o formulário
+                                $('form[name="form-comments"]').trigger('reset');
                         }
                         }
 

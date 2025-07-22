@@ -14,26 +14,27 @@ class CommentsController extends Controller
 
     public function postCommentsCreate(Request $request, $id)
     {
-        // Lógica para criar um novo comentário
-
-        
-        $request->validate([
-            'comment' => 'required|string|max:255',
+         $request->validate([
+        'comment' => 'required|string|max:255',
         ]);
 
-        CommentsPost::create([
-            'id_post' => $id, // Certifique-se de que o ID do post está sendo passado corretamente, recebe o ID do post
-            'id_user' => Auth::id(), // Supondo que o usuário esteja autenticado
+        $comment = CommentsPost::create([
+            'id_post' => $id,
+            'id_user' => Auth::id(),
             'text' => $request->comment,
         ]);
-    
-         dd($request->all());
 
-         $post = posts::findOrFail($id); // Obtém o post para o qual o comentário foi criado
+        // Carrega o usuário para enviar o nome junto
+        $comment->load('user');
 
-         $comment['success'] = true;
-         return response()->json($comment);
-         //return redirect()->route('site.postdetails', $id);
+        return response()->json([
+            'success' => true,
+            'comment' => [
+                'user_name' => $comment->user->name,
+                'text' => $comment->text,
+                'id' => $comment->id,
+            ],
+        ]);
 
     }
 
