@@ -27,6 +27,8 @@ class CommentsController extends Controller
             'text' => $request->comment,
         ]);
     
+         dd($request->all());
+
          $post = posts::findOrFail($id); // Obtém o post para o qual o comentário foi criado
 
          $comment['success'] = true;
