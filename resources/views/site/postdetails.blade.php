@@ -44,10 +44,11 @@
             </div>
             @if (!isset($post) || $post->comments->isEmpty())
                 <p class="center-align">Nenhum comentário ainda.</p>
-            @else
-                <h5 class="center-align">Comentários</h5>
-                <ul class="collection" id="comments-list">
-                    @foreach ($post->comments  as $comment)
+            @endif
+
+            <ul class="collection" id="comments-list">
+                @if(isset($post) && $post->comments->isNotEmpty())
+                    @foreach ($post->comments as $comment)
                         <li class="collection-item">
                             <span class="comment-user">{{ $comment->user->name }}:</span>
                             <span class="comment-text">{{ $comment->text }}</span>
@@ -59,8 +60,9 @@
                             @endif
                         </li>
                     @endforeach
-                </ul>
-            @endif
+                @endif
+            </ul>
+
 
             <form class="form-comments" name="form-comments" data-post-id="{{ $post->id }}">
                 @csrf
