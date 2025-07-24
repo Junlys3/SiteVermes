@@ -104,46 +104,54 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('.tooltipped').tooltip();
+    $('.tooltipped').tooltip();
 
-        $('form[name="form-comments"]').submit(function (event) {
-            event.preventDefault();
+    $('form[name="form-comments"]').submit(function (event) {
+        event.preventDefault();
 
-            let postId = $(this).data('post-id');
-            let actionUrl = "/postcomments/" + postId;
+        let postId = $(this).data('post-id');
+        let actionUrl = "/postcomments/" + postId;
 
-            $.ajax({
-                url: actionUrl,
-                type: "POST",
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function (response) {
-                    if (response.success === true && response.comment) {
-                        // Remove "nenhum comentário" se ainda existir
-                        $('#comments-list li:contains("Nenhum comentário")').remove();
+        $.ajax({
+            url: actionUrl,
+            type: "POST",
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+                if (response.success === true && response.comment) {
+                    // Remove a mensagem "Nenhum comentário ainda" se existir
+                    $('#comments-list li:contains("Nenhum comentário")').remove();
 
-                        let novoComentario = `
-                            <li class="collection-item fade-in">
-                                <span class="comment-user">${response.comment.user_name}:</span>
-                                <span class="comment-text">${response.comment.text}</span>
-                            </li>
-                        `;
+                    // Cria o elemento jQuery oculto
+                    let $novoComentario = $(`
+                        <li class="collection-item fade-in">
+                            <span class="comment-user">${response.comment.user_name}:</span>
+                            <span class="comment-text">${response.comment.text}</span>
+                        </li>
+                    `).hide();  // começa oculto
 
-                        $('#comments-list').append(novoComentario);
-                        $('form[name="form-comments"]').trigger('reset');
-                        M.updateTextFields();
+                    // Insere no DOM
+                    $('#comments-list').append($novoComentario);
 
-                        M.toast({ html: 'Comentário enviado com sucesso!', classes: 'green darken-1 white-text' });
-                    } else {
-                        M.toast({ html: 'Erro ao comentar. Tente novamente.', classes: 'red darken-1 white-text' });
-                    }
-                },
-                error: function () {
-                    M.toast({ html: 'Erro de conexão. Verifique sua internet.', classes: 'orange darken-1 white-text' });
+                    // Animação fadeIn para aparecer suavemente
+                    $novoComentario.fadeIn(400);
+
+                    // Reseta o formulário e atualiza os labels do Materialize
+                    $('form[name="form-comments"]').trigger('reset');
+                    M.updateTextFields();
+
+                    M.toast({ html: 'Comentário enviado com sucesso!', classes: 'green darken-1 white-text' });
+                } else {
+                    M.toast({ html: 'Erro ao comentar. Tente novamente.', classes: 'red darken-1 white-text' });
                 }
-            });
+            },
+            error: function () {
+                M.toast({ html: 'Erro de conexão. Verifique sua internet.', classes: 'orange darken-1 white-text' });
+            }
         });
     });
+});
+
 </script>
 
 </body>
