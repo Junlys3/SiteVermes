@@ -7,17 +7,26 @@
 
     <!-- Materialize CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
-    <!-- Material Icons (opcional, para ícones do Materialize) -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
+
     <style>
         body {
             background-color: #f5f5f5;
             padding-top: 50px;
         }
         .card {
-            max-width: 600px;
+            max-width: 700px;
             margin: auto;
+        }
+        .comment-user {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .comment-text {
+            color: #444;
+        }
+        form.form-comments {
+            padding: 20px;
         }
     </style>
 </head>
@@ -37,90 +46,95 @@
             </div>
 
             <div class="card-action">
-                <a href="{{ route('site.home') }}" class="blue-text text-darken-2">← Voltar para a home</a>
+                <a href="{{ route('site.home') }}" class="blue-text text-darken-2">
+                    <i class="material-icons left">arrow_back</i>Voltar para a home
+                </a>
             </div>
-            <div>
 
-            </div>
-            @if (!isset($post) || $post->comments->isEmpty())
-                <p class="center-align">Nenhum comentário ainda.</p>
-            @endif
+            <div class="card-content">
+                <h6>Comentários</h6>
 
-            <ul class="collection" id="comments-list">
-                @if(isset($post) && $post->comments->isNotEmpty())
-                    @foreach ($post->comments as $comment)
-                        <li class="collection-item">
-                            <span class="comment-user">{{ $comment->user->name }}:</span>
-                            <span class="comment-text">{{ $comment->text }}</span>
-                            @if( $comment->id_user === auth()->id()) 
-                                <form action="{{ route('deleteComment', $comment->id) }}" method="POST" class="right">
-                                    @csrf
-                                    <button type="submit" class="btn red lighten-1 btn-small">Excluir</button>
-                                </form>
-                            @endif
-                        </li>
-                    @endforeach
+                @if (!isset($post) || $post->comments->isEmpty())
+                    <p class="center-align grey-text">Nenhum comentário ainda.</p>
                 @endif
-            </ul>
 
+                <ul class="collection" id="comments-list">
+                    @if(isset($post) && $post->comments->isNotEmpty())
+                        @foreach ($post->comments as $comment)
+                            <li class="collection-item">
+                                <span class="comment-user">{{ $comment->user->name }}:</span>
+                                <span class="comment-text">{{ $comment->text }}</span>
 
-            <form class="form-comments" name="form-comments" data-post-id="{{ $post->id }}">
-                @csrf
-                <input type="text" name="comment" id="comment" placeholder="Deixe um comentário" class="input-field">
-                <button type="submit" class="btn">Comentar</button>
-            </form>
+                                @if($comment->id_user === auth()->id())
+                                    <form action="{{ route('deleteComment', $comment->id) }}" method="POST" class="right" style="display:inline;">
+                                        @csrf
+                                        <button type="submit" class="btn-flat red-text text-darken-1">
+                                            <i class="material-icons">delete</i>
+                                        </button>
+                                    </form>
+                                @endif
+                            </li>
+                        @endforeach
+                    @endif
+                </ul>
+
+                <form class="form-comments" name="form-comments" data-post-id="{{ $post->id }}">
+                    @csrf
+                    <div class="input-field">
+                        <input type="text" name="comment" id="comment" required>
+                        <label for="comment">Deixe um comentário</label>
+                    </div>
+                    <div class="right-align">
+                        <button type="submit" class="btn blue">
+                            <i class="material-icons left">send</i>Comentar
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- Materialize JS (com dependência do jQuery) -->
+    <!-- Materialize JS + jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
     <script>
-        $(function(){
+        $(document).ready(function () {
+    $('form[name="form-comments"]').submit(function (event) {
+        event.preventDefault();
 
+        let postId = $(this).data('post-id');
+        let actionUrl = "/postcomments/" + postId;
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        $.ajax({
+            url: actionUrl,
+            type: "POST",
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+                if (response.success === true) {
+                    let novoComentario = `
+                        <li class="collection-item fade-in" style="display: none;">
+                            <span class="comment-user">${response.comment.user_name}:</span>
+                            <span class="comment-text">${response.comment.text}</span>
+                        </li>
+                    `;
+                    const $novo = $(novoComentario);
+                    $('#comments-list').append($novo);
+                    $novo.fadeIn(400); // animação de fade-in
+
+                    $('form[name="form-comments"]').trigger('reset');
+                    M.toast({ html: 'Comentário enviado com sucesso!', classes: 'green darken-1 white-text' });
+                } else {
+                    M.toast({ html: 'Erro ao comentar. Tente novamente.', classes: 'red darken-1 white-text' });
                 }
-            });
-            $('form[name="form-comments"]').submit(function(event){
-                   event.preventDefault();
-
-                   let postId = $(this).data('post-id');
-                   let actionUrl = "/postcomments/" + postId;
-                   $.ajax({
-                        url: actionUrl,
-                        type: "post",
-                        data: $(this).serialize(),
-                        dataType: 'json',
-                        success: function(response){
-                            console.log(response);
-                            if(response.success === true){
-                                //Redirecionar
-                                let novoComentario = `
-                                    <li class="collection-item">
-                                        <span class="comment-user">${response.comment.user_name}:</span>
-                                        <span class="comment-text">${response.comment.text}</span>
-                                    </li>
-                                `;
-
-                                // Adiciona esse comentário no final da lista
-                                $('#comments-list').append(novoComentario);
-
-                                // Limpa o formulário
-                                $('form[name="form-comments"]').trigger('reset');
-                        }
-                        }
-
-                        
-
- 
-                   });
-            });
+            },
+            error: function () {
+                M.toast({ html: 'Erro de conexão. Verifique sua internet.', classes: 'orange darken-1 white-text' });
+            }
         });
-    </script>
+    });
+});
 
+    </script>
 </body>
 </html>
