@@ -124,7 +124,7 @@
 
                     // Cria o elemento jQuery oculto
                     let $novoComentario = $(`
-                        <li class="collection-item fade-in">
+                        <li class="collection-item">
                             <span class="comment-user">${response.comment.user_name}:</span>
                             <span class="comment-text">${response.comment.text}</span>
                         </li>
