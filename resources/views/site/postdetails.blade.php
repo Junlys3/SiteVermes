@@ -131,6 +131,7 @@
 
                         $('#comments-list').append(novoComentario);
                         $('form[name="form-comments"]').trigger('reset');
+                        M.updateTextFields();
 
                         M.toast({ html: 'Comentário enviado com sucesso!', classes: 'green darken-1 white-text' });
                     } else {
