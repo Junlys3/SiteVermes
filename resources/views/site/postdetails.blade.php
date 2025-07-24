@@ -77,45 +77,49 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
     <script>
-        $(document).ready(function () {
-    $('form[name="form-comments"]').submit(function (event) {
-        event.preventDefault();
+        //Script ajax básico
+        $(function(){
 
-        let postId = $(this).data('post-id');
-        let actionUrl = "/postcomments/" + postId;
 
-        $.ajax({
-            url: actionUrl,
-            type: "POST",
-            data: $(this).serialize(),
-            dataType: 'json',
-            success: function (response) {
-                console.log('Resposta do servidor:', response); // Para debug
-
-                if (response.success === true && response.comment) {
-                    let novoComentario = `
-                        <li class="collection-item fade-in" style="display: none;">
-                            <span class="comment-user">${response.comment.user_name}:</span>
-                            <span class="comment-text">${response.comment.text}</span>
-                        </li>
-                    `;
-                    const $novo = $(novoComentario);
-                    $('#comments-list').append($novo);
-                    $novo.fadeIn(400);
-
-                    $('form[name="form-comments"]').trigger('reset');
-                    M.toast({ html: 'Comentário enviado com sucesso!', classes: 'green darken-1 white-text' });
-                } else {
-                    M.toast({ html: 'Erro ao comentar. Tente novamente.', classes: 'red darken-1 white-text' });
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            },
-            error: function () {
-                M.toast({ html: 'Erro de conexão. Verifique sua internet.', classes: 'orange darken-1 white-text' });
-            }
-        });
-    });
-});
+            });
+            $('form[name="form-comments"]').submit(function(event){
+                   event.preventDefault();
 
+                   let postId = $(this).data('post-id');
+                   let actionUrl = "/postcomments/" + postId;
+                   $.ajax({
+                        url: actionUrl,
+                        type: "post",
+                        data: $(this).serialize(),
+                        dataType: 'json',
+                        success: function(response){
+                            if(response.success === true){
+                                //Anexo de comment novo direto no html para não precisar recarregar página.
+                                let novoComentario = ` 
+                                    <li class="collection-item">
+                                        <span class="comment-user">${response.comment.user_name}:</span>
+                                        <span class="comment-text">${response.comment.text}</span>
+                                    </li>
+                                `;
+
+                                // Adiciona esse comentário no final da lista
+                                $('#comments-list').append(novoComentario);
+
+                                // Limpa o formulário
+                                $('form[name="form-comments"]').trigger('reset');
+                        }
+                        }
+
+                        
+
+ 
+                   });
+            });
+        });
     </script>
 
 </body>
