@@ -58,7 +58,6 @@ class CommentsController extends Controller
             'id_post' => $comment->id_post,
             'id_user' => Auth::id(),
             'text' => $request->response,
-            'parent_id' => $comment->id, // Define o ID do comentário pai
         ]);
 
         // Carrega o usuário para enviar o nome junto
