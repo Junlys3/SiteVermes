@@ -76,9 +76,15 @@
                                     <button type="submit" class="btn-flat red-text text-darken-1 tooltipped" data-position="left" data-tooltip="Excluir">
                                         <i class="material-icons">delete</i>
                                     </button>
+
                                 </form>
                             @endif
-                        </li>
+                            <form action="{{ route('responseComment', $comment->id) }}" method="POST" class="right" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn-flat red-text text-darken-1 tooltipped" data-position="left" data-tooltip="Responder">
+                                        <i class="material-icons">reply</i>
+                                    </button>
+                              </form>
                     @endforeach
                 @endif
             </ul>
