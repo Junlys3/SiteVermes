@@ -26,8 +26,12 @@ Route::get('/postform', function () {
 Route::post('/posts',[PostsController::class,'store'])->name('site.store'); 
 Route::get('/postdetails/{id}', [PostDetails::class, 'PostDetails'])->name('site.postdetails'); // Rota para detalhes do post
 
+
+
+//Rotas para commentários
 Route::post('/postcomments/{id}', [CommentsController::class, 'postCommentsCreate'])->name('postcomments')->middleware('auth'); // Rota para exibir comentários do post
 Route::post('/deleteComment/{id}', [CommentsController::class, 'deleteComment'])->name('deleteComment')->middleware('auth'); // Rota para deletar comentários do post
+Rote::post('/respondComment/{id}', [CommentsController::class, 'respondComment'])->name('respondComment')->middleware('auth'); // Rota para responder comentários do post
 
 //Rotas login,logout
     Route::get('/logint', function(){//Redireciona para a rota login, pq por padrão middleware auth vai para a rota com name login

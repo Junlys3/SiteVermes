@@ -133,6 +133,7 @@
                         <li class="collection-item">
                             <span class="comment-user">${response.comment.user_name}:</span>
                             <span class="comment-text">${response.comment.text}</span>
+                            
                         </li>
                     `).hide();  // começa oculto
 
