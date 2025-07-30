@@ -80,7 +80,7 @@
                                 </form>
                             @endif
                                     @csrf
-                                    <button onclick="document.getElementById('comment-label').style.display = 'none';" type="button" class="btn-flat red-text text-darken-1 tooltipped" data-position="left" data-tooltip="Responder">
+                                    <button onclick="document.getElementById('comment-label').style.display = 'none'; document.getElementById('comment-label-respond').style.display = 'block';" type="button" class="btn-flat red-text text-darken-1 tooltipped" data-position="left" data-tooltip="Responder">
                                         <i class="material-icons">reply</i>
                                     </button>
                     @endforeach
