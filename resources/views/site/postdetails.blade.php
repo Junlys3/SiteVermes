@@ -79,12 +79,10 @@
 
                                 </form>
                             @endif
-                            <form action="{{ route('respondComment', $comment->id) }}" method="POST" class="right" style="display:inline;">
                                     @csrf
-                                    <button type="submit" class="btn-flat red-text text-darken-1 tooltipped" data-position="left" data-tooltip="Responder">
+                                    <button onclick="document.getElementById('comment-label').style.display = 'none';" type="button" class="btn-flat red-text text-darken-1 tooltipped" data-position="left" data-tooltip="Responder">
                                         <i class="material-icons">reply</i>
                                     </button>
-                              </form>
                     @endforeach
                 @endif
             </ul>
@@ -93,7 +91,8 @@
                 @csrf
                 <div class="input-field">
                     <input type="text" name="comment" id="comment" required>
-                    <label for="comment">Deixe um comentário</label>
+                    <label id="comment-label" for="comment">Deixe um comentário</label>
+                    <label style="display:none;" id="comment-label-respond" for="comment">Responder</label>
                 </div>
                 <div class="right-align">
                     <button type="submit" class="btn blue waves-effect waves-light">
