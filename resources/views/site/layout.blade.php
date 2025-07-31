@@ -1,119 +1,150 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Layout</title>
-    <style>
-        .draggable {
-            position: absolute !important;
-            cursor: move;
-            user-select: none;
-            z-index: 1000;
-            width: 250px;
-            box-sizing: border-box;
-            background-color: #f8f8f8;
-            padding: 10px;
-            border: 1px solid #ccc;
-            transition: all 0.2s ease;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ $title ?? 'Meu Site' }}</title>
 
-        .menu-top {
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: auto;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-        }
+  <!-- Materialize CSS -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+  />
 
-        .menu-bottom {
-            top: auto !important;
-            bottom: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: auto;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-        }
+  @stack('styles')
+  @include('partials.gridstack_assets') {{-- Inclui CSS e JS do GridStack --}}
 
-        .menu-default {
-            width: 250px;
-            display: block;
-        }
-    </style>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      font-family: "Roboto", sans-serif;
+    }
+
+    /* Container gridstack fixo no canto esquerdo */
+    .grid-stack {
+      width: 300px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1100;
+      background-color: transparent;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Widget do menu */
+    .grid-stack-item {
+      background-color: #e9f0f7; /* azul suave */
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      height: 100vh !important; /* altura total da tela */
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      user-select: none; /* evita seleção ao arrastar */
+    }
+
+    /* Conteúdo do menu: área clicável para arrastar */
+    .grid-stack-item-content {
+      padding: 20px;
+      flex-grow: 1;
+      overflow-y: auto;
+      cursor: move;
+    }
+
+    /* Links do menu */
+    .grid-stack-item-content ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .grid-stack-item-content ul li a {
+      display: block;
+      padding: 10px 12px;
+      color: #1a237e; /* azul escuro */
+      font-weight: 600;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .grid-stack-item-content ul li a:hover {
+      background-color: #c5cae9; /* azul claro hover */
+      color: #0d47a1;
+    }
+
+    /* Main content deslocado à direita do menu */
+    main.container {
+      margin-left: 320px;
+      padding: 30px 20px;
+    }
+
+    /* Footer */
+    footer.page-footer {
+      background-color: #ffffff;
+      color: #555;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 992px) {
+      main.container {
+        margin-left: 0;
+        padding: 20px 10px;
+      }
+      .grid-stack {
+        display: none; /* esconde menu fixo em telas pequenas */
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="draggable menu-default">
+  {{-- GridStack container com o menu como widget --}}
+  <div class="grid-stack">
+    <div class="grid-stack-item" gs-w="1" gs-h="1">
+      <div class="grid-stack-item-content">
+        <h5 class="blue-text text-darken-3 center-align" style="margin-bottom: 20px;">Balacobaco</h5>
         <ul>
-            <li><a href="#">Página 1</a></li>
-            <li><a href="#">Página 2</a></li>
-            <li><a href="#">Página 3</a></li>
+          <li><a href="{{ route('site.home') }}"><i class="material-icons left">home</i>Home</a></li>
+          <li><a href="#"><i class="material-icons left">article</i>Posts</a></li>
+          <li><a href="#"><i class="material-icons left">info</i>Sobre</a></li>
+          @auth
+            <li><a href="#"><i class="material-icons left">account_circle</i>{{ auth()->user()->name }}</a></li>
+            <li><a href="#"><i class="material-icons left">dashboard</i>Dashboard</a></li>
+            <li><a href="{{ route('site.logout') }}"><i class="material-icons left">exit_to_app</i>Logout</a></li>
+          @else
+            <li><a href="{{ route('site.login') }}"><i class="material-icons left">login</i>Login</a></li>
+            <li><a href="{{ route('site.register') }}"><i class="material-icons left">person_add</i>Registrar</a></li>
+          @endauth
         </ul>
+        <div style="margin-top:auto; padding-top: 20px; font-size: 0.8rem; text-align:center; color:#555;">
+          &copy; {{ date('Y') }} Balacobaco - Todos os direitos reservados
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="conteudo">
-        @yield('content')
+  <main class="container">
+    @yield('content')
+  </main>
+
+  <footer class="page-footer">
+    <div class="container">
+      &copy; {{ date('Y') }} Meu Site. Todos os direitos reservados.
     </div>
+  </footer>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const draggable = document.querySelector(".draggable");
+  <!-- Materialize JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-            if (!draggable) return;
-
-            draggable.addEventListener("mousedown", function (e) {
-                const rect = draggable.getBoundingClientRect();
-                const offsetX = e.clientX - rect.left;
-                const offsetY = e.clientY - rect.top;
-
-                function moveAt(pageX, pageY) {
-                    const windowWidth = window.innerWidth;
-                    const windowHeight = window.innerHeight;
-                    const elWidth = draggable.offsetWidth;
-                    const elHeight = draggable.offsetHeight;
-
-                    let newLeft = pageX - offsetX;
-                    let newTop = pageY - offsetY;
-
-                    // Impede que saia da tela
-                    newLeft = Math.max(0, Math.min(newLeft, windowWidth - elWidth));
-                    newTop = Math.max(0, Math.min(newTop, windowHeight - elHeight));
-
-                    draggable.style.left = newLeft + "px";
-                    draggable.style.top = newTop + "px";
-
-                    // Adapta se estiver no topo ou rodapé (dentro de 30px)
-                    if (newTop <= 30) {
-                        draggable.classList.add("menu-top");
-                        draggable.classList.remove("menu-default", "menu-bottom");
-                    } else if (newTop >= windowHeight - elHeight - 30) {
-                        draggable.classList.add("menu-bottom");
-                        draggable.classList.remove("menu-default", "menu-top");
-                    } else {
-                        draggable.classList.remove("menu-top", "menu-bottom");
-                        draggable.classList.add("menu-default");
-                    }
-                }
-
-                function onMouseMove(e) {
-                    moveAt(e.pageX, e.pageY);
-                }
-
-                document.addEventListener("mousemove", onMouseMove);
-
-                function onMouseUp() {
-                    document.removeEventListener("mousemove", onMouseMove);
-                    document.removeEventListener("mouseup", onMouseUp);
-                }
-
-                document.addEventListener("mouseup", onMouseUp);
-
-                draggable.ondragstart = () => false;
-            });
-        });
-    </script>
+  @stack('scripts')
 </body>
 </html>
