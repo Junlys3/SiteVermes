@@ -103,9 +103,12 @@
         }
     </style>
     @stack('styles')
+    
+    @include('components.layout-drag')
+
 </head>
 <body class="pastel-blue">
-    <div class="site-wrapper">
+    <div class="site-wrapper card draggable" style="top:100px; left:100px;">
         <!-- Menu lateral -->
         <ul id="slide-out" class="sidenav sidenav-fixed pastel-yellow">
             <li class="center-align" style="margin-top: 20px;">
@@ -163,5 +166,6 @@
             });
         });
     </script>
+    @stack('scripts')
 </body>
 </html>
