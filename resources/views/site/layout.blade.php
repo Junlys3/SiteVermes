@@ -7,116 +7,122 @@
 
   <!-- Materialize CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
 
   @stack('styles')
-
-  {{-- Inclui CSS e JS do GridStack + script de arrasto e limite --}}
-  @include('partials.gridstack_assets')
+  @include('partials.gridstack_assets') {{-- CSS e JS do GridStack incluído --}}
 
   <style>
     body {
-      background-color: #f4f4f4;
-      color: #333;
+      background-color: #f8fafc;
+      color: #1e293b;
+      font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
-      font-family: "Roboto", sans-serif;
     }
 
-    /* Container gridstack fixo no canto esquerdo */
     .grid-stack {
-      width: 300px;
-      height: 100vh;
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 1100;
-      background-color: transparent;
+      z-index: 1200;
+      height: 100vh;
+      width: auto;
       padding: 0;
-      margin: 0;
     }
 
-    /* Widget do menu */
     .grid-stack-item {
-      background-color: #e9f0f7; /* azul suave */
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      height: 100vh !important; /* altura total da tela */
-      display: flex;
-      flex-direction: column;
+      background-color: #e2e8f0;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
       overflow: hidden;
-      user-select: none; /* evita seleção ao arrastar */
+      transition: box-shadow 0.2s ease;
     }
 
-    /* Conteúdo do menu: área clicável para arrastar */
     .grid-stack-item-content {
       padding: 20px;
-      flex-grow: 1;
-      overflow-y: auto;
       cursor: move;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* Links do menu */
+    .grid-stack-item-content h5 {
+      margin-bottom: 20px;
+      color: #1e40af;
+    }
+
     .grid-stack-item-content ul {
       list-style: none;
-      padding-left: 0;
+      padding: 0;
       margin: 0;
     }
 
     .grid-stack-item-content ul li a {
-      display: block;
+      display: flex;
+      align-items: center;
       padding: 10px 12px;
-      color: #1a237e; /* azul escuro */
-      font-weight: 600;
-      border-radius: 4px;
+      color: #1e293b;
+      border-radius: 6px;
       text-decoration: none;
-      transition: background-color 0.3s ease;
+      transition: background 0.3s;
     }
 
     .grid-stack-item-content ul li a:hover {
-      background-color: #c5cae9; /* azul claro hover */
-      color: #0d47a1;
+      background-color: #cbd5e1;
     }
 
-    /* Main content deslocado à direita do menu */
     main.container {
       margin-left: 320px;
       padding: 30px 20px;
-      min-height: 100vh; /* garante pelo menos altura da tela */
+      min-height: 100vh;
       box-sizing: border-box;
     }
 
-    /* Footer */
     footer.page-footer {
-      background-color: #ffffff;
+      background-color: #fff;
       color: #555;
-      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-      padding: 15px 0;
+      padding: 20px 0;
       text-align: center;
-      margin-top: 30px;
+      box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
     }
 
-    /* Responsividade */
+    /* Responsivo */
     @media (max-width: 992px) {
+      .grid-stack {
+        display: none;
+      }
+
       main.container {
         margin-left: 0;
-        padding: 20px 10px;
       }
-      .grid-stack {
-        display: none; /* esconde menu fixo em telas pequenas */
-      }
+    }
+
+    /* Snap para topo ou rodapé */
+    .menu-top {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 60px !important;
+      z-index: 1000;
+    }
+
+    .menu-bottom {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 60px !important;
+      z-index: 1000;
     }
   </style>
 </head>
 <body>
-  {{-- GridStack container com o menu como widget --}}
   <div class="grid-stack">
-    <div class="grid-stack-item" gs-w="1" gs-h="1">
+    <div class="grid-stack-item" gs-w="3" gs-h="6">
       <div class="grid-stack-item-content">
-        <h5 class="blue-text text-darken-3 center-align" style="margin-bottom: 20px;">Balacobaco</h5>
+        <h5 class="center-align">Balacobaco</h5>
         <ul>
           <li><a href="{{ route('site.home') }}"><i class="material-icons left">home</i>Home</a></li>
           <li><a href="#"><i class="material-icons left">article</i>Posts</a></li>
@@ -149,7 +155,6 @@
 
   <!-- Materialize JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
   @stack('scripts')
 </body>
 </html>
