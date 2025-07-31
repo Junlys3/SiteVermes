@@ -104,7 +104,7 @@
     </style>
     @stack('styles')
     
-    @include('components.layout-drag')
+    @include('partials.gridstack_assets')
 
 </head>
 <body class="pastel-blue">
