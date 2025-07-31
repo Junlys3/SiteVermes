@@ -5,8 +5,7 @@
     @foreach($posts as $post)
       <div class="row">
         <div class="col s12">
-          <div class="card blue-grey darken-1 draggable" 
-           style="position: absolute; top: {{ 100 + $loop->index * 220 }}px; left: 50px;">
+          <div class="card blue-grey darken-1">
             <div class="card-content white-text">
               <span class="card-title">{{ $post->nome }}</span>
               @if ($post->imagem)
@@ -52,54 +51,40 @@
     z-index: 1000;
   }
 
-  .draggable {
-    cursor: move;
-    /* position: absolute; já setado inline para facilitar */
-    z-index: 100;
-    user-select: none; /* Evita seleção de texto durante o drag */
-  }
-
- 
-  main.container {
-    position: relative;
-    height: 1000px; /* ou altura suficiente para conter os cards */
-  }
-
-
   .card-content p {
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
 
-    @media (max-width: 600px) {
-      form {
-        width: 100% !important;        /* Ocupa toda a largura disponível */
-        max-width: 100vw !important;   /* Nunca ultrapassa a largura da viewport */
-        box-sizing: border-box;        /* Considera padding e border na largura */
-        padding-left: 10px;            /* Pequeno padding interno */
-        padding-right: 10px;
-        margin: 0 auto !important;
-      }
-
-      input[type="text"],
-      input[type="email"],
-      input[type="password"],
-      textarea,
-      select {
-        font-size: 1.2rem !important;  /* Fonte maior para facilitar leitura */
-      }
-
-      .input-field {
-        margin-bottom: 1.8rem !important; /* Espaçamento maior entre campos */
-      }
-
-      textarea.materialize-textarea {
-        min-height: 120px; /* Aumenta altura do textarea */
-      }
-
-      .file-field.input-field {
-        margin-bottom: 2.5rem !important; /* Espaço maior para upload */
-      }
+  @media (max-width: 600px) {
+    form {
+      width: 100% !important;        /* Ocupa toda a largura disponível */
+      max-width: 100vw !important;   /* Nunca ultrapassa a largura da viewport */
+      box-sizing: border-box;        /* Considera padding e border na largura */
+      padding-left: 10px;            /* Pequeno padding interno */
+      padding-right: 10px;
+      margin: 0 auto !important;
     }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    select {
+      font-size: 1.2rem !important;  /* Fonte maior para facilitar leitura */
+    }
+
+    .input-field {
+      margin-bottom: 1.8rem !important; /* Espaçamento maior entre campos */
+    }
+
+    textarea.materialize-textarea {
+      min-height: 120px; /* Aumenta altura do textarea */
+    }
+
+    .file-field.input-field {
+      margin-bottom: 2.5rem !important; /* Espaço maior para upload */
+    }
+  }
 </style>
 @endpush
