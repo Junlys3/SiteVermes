@@ -5,7 +5,8 @@
     @foreach($posts as $post)
       <div class="row">
         <div class="col s12">
-          <div class="card blue-grey darken-1 draggable" style="position: absolute; top: {{ 100 + $loop->index * 220 }}px; left: 50px;">
+          <div class="card blue-grey darken-1 draggable" 
+           style="position: absolute; top: {{ 100 + $loop->index * 220 }}px; left: 50px;">
             <div class="card-content white-text">
               <span class="card-title">{{ $post->nome }}</span>
               @if ($post->imagem)
@@ -56,6 +57,12 @@
     /* position: absolute; já setado inline para facilitar */
     z-index: 100;
     user-select: none; /* Evita seleção de texto durante o drag */
+  }
+
+ 
+  main.container {
+    position: relative;
+    height: 1000px; /* ou altura suficiente para conter os cards */
   }
 
 

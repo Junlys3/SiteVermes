@@ -17,34 +17,36 @@
 @push('scripts')
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const elements = document.querySelectorAll(".draggable");
+  const elements = document.querySelectorAll(".draggable");
 
-    elements.forEach(el => {
-      el.addEventListener("mousedown", function (e) {
-        const offsetX = e.clientX - el.getBoundingClientRect().left;
-        const offsetY = e.clientY - el.getBoundingClientRect().top;
+  elements.forEach(el => {
+    el.addEventListener("mousedown", function (e) {
+      const offsetX = e.clientX - el.getBoundingClientRect().left;
+      const offsetY = e.clientY - el.getBoundingClientRect().top;
 
-        function moveAt(pageX, pageY) {
-          el.style.left = pageX - offsetX + 'px';
-          el.style.top = pageY - offsetY + 'px';
-        }
+      function moveAt(pageX, pageY) {
+        el.style.left = pageX - offsetX + 'px';
+        el.style.top = pageY - offsetY + 'px';
+      }
 
-        function onMouseMove(e) {
-          moveAt(e.pageX, e.pageY);
-        }
+      function onMouseMove(e) {
+        moveAt(e.pageX, e.pageY);
+      }
 
-        document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mousemove", onMouseMove);
 
-        el.onmouseup = () => {
-          document.removeEventListener("mousemove", onMouseMove);
-          el.onmouseup = null;
+      function onMouseUp() {
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+        // Aqui você pode salvar a posição no backend via fetch/AJAX
+      }
 
-          // Aqui você pode salvar a posição no backend via fetch/AJAX
-        };
-      });
+      document.addEventListener("mouseup", onMouseUp);
 
       el.ondragstart = () => false;
     });
   });
+});
+
 </script>
 @endpush
