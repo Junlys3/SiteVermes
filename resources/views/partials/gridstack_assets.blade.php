@@ -16,21 +16,25 @@
 
 @push('scripts')
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+ document.addEventListener("DOMContentLoaded", () => {
   const elements = document.querySelectorAll(".draggable");
 
   elements.forEach(el => {
+    el.ondragstart = () => false; // Desabilita o drag nativo
+
     el.addEventListener("mousedown", function (e) {
+      e.preventDefault(); // Evita seleção de texto etc
+
       const offsetX = e.clientX - el.getBoundingClientRect().left;
       const offsetY = e.clientY - el.getBoundingClientRect().top;
 
-      function moveAt(pageX, pageY) {
-        el.style.left = pageX - offsetX + 'px';
-        el.style.top = pageY - offsetY + 'px';
+      function moveAt(clientX, clientY) {
+        el.style.left = clientX - offsetX + 'px';
+        el.style.top = clientY - offsetY + 'px';
       }
 
       function onMouseMove(e) {
-        moveAt(e.pageX, e.pageY);
+        moveAt(e.clientX, e.clientY);
       }
 
       document.addEventListener("mousemove", onMouseMove);
@@ -38,15 +42,14 @@
       function onMouseUp() {
         document.removeEventListener("mousemove", onMouseMove);
         document.removeEventListener("mouseup", onMouseUp);
-        // Aqui você pode salvar a posição no backend via fetch/AJAX
+        // Aqui pode salvar posição no backend
       }
 
       document.addEventListener("mouseup", onMouseUp);
-
-      el.ondragstart = () => false;
     });
   });
 });
+
 
 </script>
 @endpush
