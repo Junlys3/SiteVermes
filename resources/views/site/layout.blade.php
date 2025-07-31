@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ $title ?? 'Meu Site' }}</title>
+  <title>{{ $title ?? 'Balacobaco' }}</title>
 
   <!-- Materialize CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -13,7 +13,9 @@
   />
 
   @stack('styles')
-  @include('partials.gridstack_assets') {{-- Inclui CSS e JS do GridStack --}}
+
+  {{-- Inclui CSS e JS do GridStack + script de arrasto e limite --}}
+  @include('partials.gridstack_assets')
 
   <style>
     body {
@@ -83,6 +85,8 @@
     main.container {
       margin-left: 320px;
       padding: 30px 20px;
+      min-height: 100vh; /* garante pelo menos altura da tela */
+      box-sizing: border-box;
     }
 
     /* Footer */
@@ -95,6 +99,7 @@
       margin-top: 30px;
     }
 
+    /* Responsividade */
     @media (max-width: 992px) {
       main.container {
         margin-left: 0;
@@ -138,7 +143,7 @@
 
   <footer class="page-footer">
     <div class="container">
-      &copy; {{ date('Y') }} Meu Site. Todos os direitos reservados.
+      &copy; {{ date('Y') }} Balacobaco. Todos os direitos reservados.
     </div>
   </footer>
 
