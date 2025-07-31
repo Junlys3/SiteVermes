@@ -22,14 +22,13 @@
     }
 
     .grid-stack {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1200;
-      height: 100vh;
-      width: auto;
-      padding: 0;
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    z-index: 1200;
+    position: relative; /* ou simplesmente remova se já estiver dentro de um container com posição controlada */
     }
+
 
     .grid-stack-item {
       background-color: #e2e8f0;

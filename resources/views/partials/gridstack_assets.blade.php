@@ -1,94 +1,119 @@
-<!-- gridstack_assets.blade.php -->
-
-<!-- Gridstack CSS --> 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridstack@9.2.1/dist/gridstack.min.css" />
-
-<!-- Gridstack JS -->
-<script src="https://cdn.jsdelivr.net/npm/gridstack@9.2.1/dist/gridstack-all.js"></script>
-
 @push('styles')
-<style>
-  /* Para o menu, definir largura fixa e altura 100vh (altura da tela) */
-  .grid-stack {
-    background: transparent; /* sem fundo grid */
-    width: 300px; /* largura fixa do menu */
-    height: 100vh;
-    position: fixed; /* fixa no viewport */
-    top: 0;
-    left: 0;
-    z-index: 1100;
-  }
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridstack@9.2.2/dist/gridstack.min.css" />
+  <style>
+    .grid-stack {
+      height: 100vh;
+    }
 
-  /* Estilização do widget (menu) */
-  .grid-stack-item {
-    background: #ffe070; /* cor pastel amarelo */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    border-radius: 6px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100vh !important; /* altura total da viewport */
-  }
+    .grid-stack-item {
+      background-color: #e0f2fe;
+      color: #0f172a;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
 
-  /* Conteúdo do menu dentro do widget */
-  .grid-stack-item-content {
-    padding: 10px;
-    color: #355;
-    font-weight: bold;
-    flex-grow: 1;
-    overflow-y: auto;
-  }
+    .grid-stack-item:hover {
+      transform: scale(1.01);
+    }
 
-  /* Ajuste para links do menu */
-  .grid-stack-item-content ul li a {
-    color: #355 !important;
-  }
-</style>
+    .grid-stack-item-content ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .grid-stack-item-content ul li a {
+      display: block;
+      padding: 12px 18px;
+      color: #0f172a !important;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+
+    .grid-stack-item-content ul li a:hover {
+      background-color: #bae6fd;
+    }
+
+    .menu-top {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 60px !important;
+      z-index: 1000;
+    }
+
+    .menu-bottom {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 60px !important;
+      z-index: 1000;
+    }
+
+    .menu-right {
+      position: fixed !important;
+      top: 0 !important;
+      right: 0 !important;
+      height: 100vh !important;
+      width: 250px !important;
+      z-index: 1000;
+    }
+
+    .menu-left {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      height: 100vh !important;
+      width: 250px !important;
+      z-index: 1000;
+    }
+  </style>
 @endpush
 
 @push('scripts')
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Inicializa o GridStack com opções customizadas
-    const grid = GridStack.init({
-      staticGrid: false,
-      float: false,
-      disableOneColumnMode: true,
-      cellHeight: window.innerHeight, // uma linha = toda altura viewport
-      margin: 5,
-      minRow: 1,
-      minCol: 1,
-      maxRow: 1,
-      maxCol: 1,
-      draggable: {
-        handle: '.grid-stack-item-content', // só arrasta pelo conteúdo
+  <script src="https://cdn.jsdelivr.net/npm/gridstack@9.2.2/dist/gridstack-h5.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const grid = GridStack.init({
+        cellHeight: 80,
+        float: true,
+        resizable: {
+          handles: 'all'
+        }
+      });
+
+      const el = document.querySelector('.grid-stack-item');
+      grid.makeWidget(el);
+
+      function updatePosition() {
+        const rect = el.getBoundingClientRect();
+        const winHeight = window.innerHeight;
+        const winWidth = window.innerWidth;
+        const top = rect.top;
+        const left = rect.left;
+
+        // Remove classes antigas
+        el.classList.remove('menu-top', 'menu-bottom', 'menu-left', 'menu-right');
+
+       if (top <= 10) {
+        el.classList.add('menu-top');
+        } else if (top + rect.height >= winHeight - 10) {
+        el.classList.add('menu-bottom');
+        } else if (left <= 10) {
+        el.classList.add('menu-left');
+        } else if (left + rect.width >= winWidth - 10) {
+        el.classList.add('menu-right'); // ← ESSA LINHA FAZ FALTAR A CLASSE!
+        }
+
       }
+
+      el.addEventListener('dragend', updatePosition);
+      el.addEventListener('mouseup', updatePosition);
     });
-
-    // Limita posição do widget para não sair da tela
-    grid.on('dragstop', function(event, el) {
-      const gridEl = el;
-      const rect = gridEl.getBoundingClientRect();
-      const winWidth = window.innerWidth;
-      const winHeight = window.innerHeight;
-
-      let left = rect.left;
-      let top = rect.top;
-
-      // Ajusta left para dentro da tela
-      if(left < 0) left = 0;
-      if(left + rect.width > winWidth) left = winWidth - rect.width;
-
-      // Ajusta top para dentro da tela, adaptando topo e rodapé
-      if(top < 0) top = 0;
-      if(top + rect.height > winHeight) top = winHeight - rect.height;
-
-      // Aplica correção via estilo absoluto
-      gridEl.style.position = 'fixed';
-      gridEl.style.left = left + 'px';
-      gridEl.style.top = top + 'px';
-    });
-
-  });
-</script>
+  </script>
 @endpush
