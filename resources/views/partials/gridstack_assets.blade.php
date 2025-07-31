@@ -2,16 +2,26 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridstack@9.2.2/dist/gridstack.min.css" />
   <style>
     .grid-stack {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
       height: 100vh;
+      padding: 0;
+      z-index: 1200;
+      background: transparent; /* opcional */
     }
 
     .grid-stack-item {
+      width: 100% !important;
+      height: 100% !important;
       background-color: #e0f2fe;
       color: #0f172a;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       transition: all 0.2s ease;
+      cursor: move;
     }
 
     .grid-stack-item:hover {
@@ -37,6 +47,7 @@
       background-color: #bae6fd;
     }
 
+    /* Posicionamento para os snaps */
     .menu-top {
       position: fixed !important;
       top: 0 !important;
@@ -44,6 +55,7 @@
       width: 100vw !important;
       height: 60px !important;
       z-index: 1000;
+      border-radius: 0 !important;
     }
 
     .menu-bottom {
@@ -53,15 +65,7 @@
       width: 100vw !important;
       height: 60px !important;
       z-index: 1000;
-    }
-
-    .menu-right {
-      position: fixed !important;
-      top: 0 !important;
-      right: 0 !important;
-      height: 100vh !important;
-      width: 250px !important;
-      z-index: 1000;
+      border-radius: 0 !important;
     }
 
     .menu-left {
@@ -71,6 +75,17 @@
       height: 100vh !important;
       width: 250px !important;
       z-index: 1000;
+      border-radius: 0 !important;
+    }
+
+    .menu-right {
+      position: fixed !important;
+      top: 0 !important;
+      right: 0 !important;
+      height: 100vh !important;
+      width: 250px !important;
+      z-index: 1000;
+      border-radius: 0 !important;
     }
   </style>
 @endpush
@@ -97,20 +112,20 @@
         const top = rect.top;
         const left = rect.left;
 
-        // Remove classes antigas
         el.classList.remove('menu-top', 'menu-bottom', 'menu-left', 'menu-right');
 
-       if (top <= 10) {
-        el.classList.add('menu-top');
+        if (top <= 10) {
+          el.classList.add('menu-top');
         } else if (top + rect.height >= winHeight - 10) {
-        el.classList.add('menu-bottom');
+          el.classList.add('menu-bottom');
         } else if (left <= 10) {
-        el.classList.add('menu-left');
+          el.classList.add('menu-left');
         } else if (left + rect.width >= winWidth - 10) {
-        el.classList.add('menu-right'); // ← ESSA LINHA FAZ FALTAR A CLASSE!
+          el.classList.add('menu-right');
         }
-
       }
+
+      updatePosition(); // Posiciona no carregamento
 
       el.addEventListener('dragend', updatePosition);
       el.addEventListener('mouseup', updatePosition);
