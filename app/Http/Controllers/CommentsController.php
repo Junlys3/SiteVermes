@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\posts;
 use App\Models\User;
 use App\Notifications\NovoComment;
-
+use Illuminate\Support\Facades\Log;
 
 
 class CommentsController extends Controller
@@ -42,9 +42,15 @@ class CommentsController extends Controller
 
 
        $notificacaoMaisAntiga = Auth::user()->unreadNotifications()->oldest()->first();
-       if ($notificacaoMaisAntiga) {
-                $notificacaoMaisAntiga->delete();
+        // Verifica se existe uma notificação não lida mais antiga e a apaga
+
+        if ($notificacaoMaisAntiga) {
+            Log::info('Notificação encontrada para apagar:', ['id' => $notificacaoMaisAntiga->id, 'data' => $notificacaoMaisAntiga->data]);
+            $notificacaoMaisAntiga->delete();
+        } else {
+            Log::info('Nenhuma notificação não lida encontrada para apagar');
         }
+
 
         return response()->json([ // Reposta JSON com o nome do usuário e o texto do comentário para ser recebido com AJAX.
             'success' => true,
