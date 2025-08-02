@@ -134,7 +134,6 @@
                             
                         @endforeach
                         
-                        auth()->user()->unreadNotifications->markAsRead();
                         
 
                     </ul>
