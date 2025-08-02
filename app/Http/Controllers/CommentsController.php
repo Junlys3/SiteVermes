@@ -59,7 +59,7 @@ class CommentsController extends Controller
             $notification->markAsRead();
         }
 
-        redirect()->back()->with('success', 'Notificações marcadas como lidas.');
+        redirect()->route('home'); // Redireciona para a rota 'home' após marcar as notificações como lidas
     }
 
       
