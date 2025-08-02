@@ -41,14 +41,11 @@ class CommentsController extends Controller
         $alvodanotificacao->notify(new NovoComment($comment)); // Envia a notificação para o usuário que fez o comentário
 
 
-         $user = Auth::user();
-         $maisAntiga = $user->unreadNotifications()->oldest()->first();
-
-
-
-         if ($maisAntiga) {
-            $maisAntiga->markAsRead();
+       $notificacaoMaisAntiga = Auth::user()->unreadNotifications()->oldest()->first();
+       if ($notificacaoMaisAntiga) {
+                $notificacaoMaisAntiga->delete();
         }
+
         return response()->json([ // Reposta JSON com o nome do usuário e o texto do comentário para ser recebido com AJAX.
             'success' => true,
             'comment' => [
