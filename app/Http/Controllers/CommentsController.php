@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Notifications\NovoComment;
 
 
+
 class CommentsController extends Controller
 {
 
@@ -30,6 +31,8 @@ class CommentsController extends Controller
         // Carrega o usuário para enviar o nome junto
         $comment->load('user');
 
+     
+
 
 
         $alvodanotificacao = User::findOrFail($comment->id_user);
@@ -37,6 +40,15 @@ class CommentsController extends Controller
         
         $alvodanotificacao->notify(new NovoComment($comment)); // Envia a notificação para o usuário que fez o comentário
 
+
+         $user = Auth::user();
+         $maisAntiga = $user->unreadNotifications()->oldest()->first();
+
+
+
+         if ($maisAntiga) {
+            $maisAntiga->markAsRead();
+        }
         return response()->json([ // Reposta JSON com o nome do usuário e o texto do comentário para ser recebido com AJAX.
             'success' => true,
             'comment' => [
