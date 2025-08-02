@@ -40,7 +40,6 @@ class CommentsController extends Controller
 
 
 
-        dd($alvodanotificacao->unreadNotifications()->count());
 
        $notificacaoMaisAntiga = $alvodanotificacao->unreadNotifications()->oldest()->first();
         // Verifica se existe uma notificação não lida mais antiga e a apaga
