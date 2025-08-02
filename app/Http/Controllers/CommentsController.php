@@ -75,7 +75,7 @@ class CommentsController extends Controller
             $notification->markAsRead();
         }
 
-        return response()->json(['success' => true]);
+        redirect()->back()->with('success', 'Notificações marcadas como lidas.');
     }
 
       
