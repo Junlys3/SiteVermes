@@ -67,6 +67,17 @@ class CommentsController extends Controller
 
 
 
+    public function readNotification(Request $request)
+    {
+
+        $user = Auth::user();
+        foreach ($user->unreadNotifications as $notification) {
+            $notification->markAsRead();
+        }
+
+        return response()->json(['success' => true]);
+    }
+
       
     public function deleteComment($id){
         $comment = CommentsPost::findOrFail($id); // Encontra o comentário pelo ID
