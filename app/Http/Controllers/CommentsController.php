@@ -32,27 +32,14 @@ class CommentsController extends Controller
         $comment->load('user');
 
 
+    //Notifação
         $alvodanotificacao = User::findOrFail($comment->id_user);
-
-        
-
         $alvodanotificacao->notify(new NovoComment($comment)); // Envia a notificação para o usuário que fez o comentário
 
+ 
 
 
-
-       $notificacaoMaisAntiga = $alvodanotificacao->unreadNotifications()->oldest()->first();
-        // Verifica se existe uma notificação não lida mais antiga e a apaga
-
-        if ($notificacaoMaisAntiga) {
-            Log::info('Notificação encontrada para apagar:', ['id' => $notificacaoMaisAntiga->id, 'data' => $notificacaoMaisAntiga->data]);
-            $notificacaoMaisAntiga->delete();
-        } else {
-            Log::info('Nenhuma notificação não lida encontrada para apagar');
-        }
-
-
-        return response()->json([ // Reposta JSON com o nome do usuário e o texto do comentário para ser recebido com AJAX.
+    return response()->json([ // Reposta JSON com o nome do usuário e o texto do comentário para ser recebido com AJAX.
             'success' => true,
             'comment' => [
                 'user_name' => $comment->user->name,
@@ -60,9 +47,6 @@ class CommentsController extends Controller
                 'id' => $comment->id,
             ],
         ]);
-
-
-        
     }
 
 
