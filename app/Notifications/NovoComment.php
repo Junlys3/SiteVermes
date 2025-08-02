@@ -52,7 +52,7 @@ class NovoComment extends Notification
     {
         return [
             'comment_id' => $this->comment->id,
-            'mensagem' => 'Novo comentario num post seu adicionado.',
+            'mensagem' => 'Novo comentario adicionado.',
         ];
     }
 }

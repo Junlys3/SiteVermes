@@ -123,7 +123,7 @@
             <li><a href="{{ route('site.login') }}" class="pastel-blue-text"><i class="material-icons">login</i>Login</a></li>
             @endauth
             @auth
-                <h3>Notificações</h3>
+                <h4>Notificações</h4>
 
                 @if(auth()->user()->unreadNotifications->count() === 0)
                     <p>Você não tem notificações novas.</p>
@@ -131,7 +131,12 @@
                     <ul>
                         @foreach(auth()->user()->unreadNotifications as $notification)
                             <li>{{ $notification->data['mensagem'] }}</li>
+                            
                         @endforeach
+                        
+                        auth()->user()->unreadNotifications->markAsRead();
+                        
+
                     </ul>
                 @endif
             @endauth

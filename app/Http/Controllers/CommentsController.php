@@ -35,7 +35,7 @@ class CommentsController extends Controller
         $alvodanotificacao = User::findOrFail($comment->id_user);
 
         
-        $alvodanotificacao->notify(new NovoComment($comment));
+        $alvodanotificacao->notify(new NovoComment($comment)); // Envia a notificação para o usuário que fez o comentário
 
         return response()->json([ // Reposta JSON com o nome do usuário e o texto do comentário para ser recebido com AJAX.
             'success' => true,
