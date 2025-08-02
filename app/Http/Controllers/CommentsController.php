@@ -35,8 +35,12 @@ class CommentsController extends Controller
         $alvodanotificacao = User::findOrFail($comment->id_user);
 
         
+
         $alvodanotificacao->notify(new NovoComment($comment)); // Envia a notificação para o usuário que fez o comentário
 
+
+
+        dd($alvodanotificacao->unreadNotifications()->count());
 
        $notificacaoMaisAntiga = $alvodanotificacao->unreadNotifications()->oldest()->first();
         // Verifica se existe uma notificação não lida mais antiga e a apaga
