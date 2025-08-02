@@ -32,6 +32,21 @@
     @endforeach
   </div>
 
+  @auth
+    <h3>Notificações</h3>
+
+    @if(auth()->user()->unreadNotifications->count() === 0)
+        <p>Você não tem notificações novas.</p>
+    @else
+        <ul>
+            @foreach(auth()->user()->unreadNotifications as $notification)
+                <li>{{ $notification->data['mensagem'] }}</li>
+            @endforeach
+        </ul>
+    @endif
+@endauth
+
+
   {{-- Botão flutuante para adicionar novo post.. --}}
   @auth
     <a href="{{ route('site.form') }}" 
