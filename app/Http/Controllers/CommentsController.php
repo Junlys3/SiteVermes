@@ -58,8 +58,8 @@ class CommentsController extends Controller
         foreach ($user->unreadNotifications as $notification) {
             $notification->markAsRead();
         }
-
-        redirect()->route('site.home'); // Redireciona para a rota 'home' após marcar as notificações como lidas
+ 
+        return redirect()->route('site.home');
     }
 
       
