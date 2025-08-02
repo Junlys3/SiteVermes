@@ -33,7 +33,7 @@ Route::post('/postcomments/{id}', [CommentsController::class, 'postCommentsCreat
 Route::post('/deleteComment/{id}', [CommentsController::class, 'deleteComment'])->name('deleteComment')->middleware('auth'); // Rota para deletar comentários do post
 Route::post('/respondComment/{id}', [CommentsController::class, 'respondComment'])->name('respondComment')->middleware('auth'); // Rota para responder comentários dos posts
 
-Route::post('/reads', [CommentsController::class, 'readNotification'])->name('readNotification')->middleware('auth');
+Route::get('/reads', [CommentsController::class, 'readNotification'])->name('readNotification')->middleware('auth');
 
 
 

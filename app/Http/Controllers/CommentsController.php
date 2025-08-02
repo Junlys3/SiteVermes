@@ -67,7 +67,7 @@ class CommentsController extends Controller
 
 
 
-    public function readNotification(Request $request)
+    public function readNotification()
     {
 
         $user = Auth::user();
