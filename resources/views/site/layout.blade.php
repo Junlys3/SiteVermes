@@ -138,7 +138,7 @@
                   
                     </ul>
                 @endif
-                <h4><a href="{{route('')}}">Marcar como lidas</a></h4>
+                <h4><a href="{{route('readNotification')}}">Marcar como lidas</a></h4>
             @endauth
 
             <!-- Rodapé dentro do menu lateral -->
