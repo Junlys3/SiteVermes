@@ -28,7 +28,7 @@
       left: 0;
       height: 100vh;
       width: 280px;
-      background-color: #f0f4ff;
+      background-color: #F35F60;
       box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
       padding: 20px;
       box-sizing: border-box;
