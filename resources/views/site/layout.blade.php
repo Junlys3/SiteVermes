@@ -9,9 +9,11 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
 
+  {{-- Aqui entram os estilos personalizados que você empurra via @push('styles') --}}
   @stack('styles')
-
+  
   <style>
+    /* Estilos fixos do layout */
     body {
       background-color: #fefefe;
       color: #1e293b;
@@ -31,18 +33,23 @@
       padding: 20px;
       box-sizing: border-box;
       z-index: 1000;
+      display: flex;
+      flex-direction: column;
     }
 
     aside.menu-lateral h5 {
       text-align: center;
       margin-bottom: 30px;
       color: #1d4ed8;
+      font-weight: 700;
+      font-size: 1.8rem;
     }
 
     aside.menu-lateral ul {
       list-style: none;
       padding: 0;
       margin: 0;
+      flex-grow: 1;
     }
 
     aside.menu-lateral ul li a {
@@ -53,6 +60,8 @@
       border-radius: 6px;
       text-decoration: none;
       transition: background 0.3s, color 0.3s;
+      font-weight: 500;
+      font-size: 1rem;
     }
 
     aside.menu-lateral ul li a:hover {
@@ -60,11 +69,21 @@
       color: #2563eb;
     }
 
+    /* Rodapé fixo do menu para copyright */
+    aside.menu-lateral > div.menu-footer {
+      margin-top: auto;
+      font-size: 0.8rem;
+      text-align: center;
+      color: #64748b;
+      padding-top: 20px;
+    }
+
     main.container {
       margin-left: 280px;
       padding: 30px 20px;
       min-height: 100vh;
       box-sizing: border-box;
+      background-color: #fefefe;
     }
 
     footer.page-footer {
@@ -73,15 +92,17 @@
       padding: 20px 0;
       text-align: center;
       box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+      font-size: 0.9rem;
     }
 
+    /* Responsividade */
     @media (max-width: 992px) {
       aside.menu-lateral {
         display: none;
       }
-
       main.container {
         margin-left: 0;
+        padding: 20px 15px;
       }
     }
   </style>
@@ -103,7 +124,7 @@
         <li><a href="{{ route('site.register') }}"><i class="material-icons left">person_add</i>Registrar</a></li>
       @endauth
     </ul>
-    <div style="margin-top:auto; padding-top: 20px; font-size: 0.8rem; text-align:center; color:#64748b;">
+    <div class="menu-footer">
       &copy; {{ date('Y') }} Balacobaco - Todos os direitos reservados
     </div>
   </aside>
