@@ -33,6 +33,11 @@ Route::post('/postcomments/{id}', [CommentsController::class, 'postCommentsCreat
 Route::post('/deleteComment/{id}', [CommentsController::class, 'deleteComment'])->name('deleteComment')->middleware('auth'); // Rota para deletar comentários do post
 Route::post('/respondComment/{id}', [CommentsController::class, 'respondComment'])->name('respondComment')->middleware('auth'); // Rota para responder comentários dos posts
 
+Route::get('/reads', [CommentsController::class, 'readNotification'])->name('readNotification')->middleware('auth');
+
+
+
+
 //Rotas login,logout
     Route::get('/logint', function(){//Redireciona para a rota login, pq por padrão middleware auth vai para a rota com name login
         return redirect('/login');

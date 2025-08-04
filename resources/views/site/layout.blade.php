@@ -117,23 +117,47 @@
     }
   </style>
 </head>
-<body>
-  <div class="grid-stack">
-    <div class="grid-stack-item" gs-w="3" gs-h="6">
-      <div class="grid-stack-item-content">
-        <h5 class="center-align">Balacobaco</h5>
-        <ul>
-          <li><a href="{{ route('site.home') }}"><i class="material-icons left">home</i>Home</a></li>
-          <li><a href="#"><i class="material-icons left">article</i>Posts</a></li>
-          <li><a href="#"><i class="material-icons left">info</i>Sobre</a></li>
-          @auth
-            <li><a href="#"><i class="material-icons left">account_circle</i>{{ auth()->user()->name }}</a></li>
-            <li><a href="#"><i class="material-icons left">dashboard</i>Dashboard</a></li>
-            <li><a href="{{ route('site.logout') }}"><i class="material-icons left">exit_to_app</i>Logout</a></li>
-          @else
-            <li><a href="{{ route('site.login') }}"><i class="material-icons left">login</i>Login</a></li>
-            <li><a href="{{ route('site.register') }}"><i class="material-icons left">person_add</i>Registrar</a></li>
-          @endauth
+<body class="pastel-blue">
+    <div class="site-wrapper">
+        <!-- Menu lateral -->
+        <ul id="slide-out" class="sidenav sidenav-fixed pastel-yellow">
+            <li class="center-align" style="margin-top: 20px;">
+                <h5 class="pastel-blue-text">Balacobaco</h5>
+            </li>
+            <li><div class="divider"></div></li>
+            <li><a href="{{ route('site.home') }}" class="pastel-blue-text"><i class="material-icons">home</i>Home</a></li>
+            <li><a href="#" class="pastel-blue-text"><i class="material-icons">article</i>Posts</a></li>
+            <li><a href="#" class="pastel-blue-text"><i class="material-icons">info</i>Sobre</a></li>
+            @auth
+            <li><a href="#!" class="pastel-blue-text"><i class="material-icons">account_circle</i>{{ auth()->user()->name }}</a></li>
+            <li><a href="#!" class="pastel-blue-text"><i class="material-icons">dashboard</i>Dashboard</a></li>
+            <li><a href="{{ route('site.logout') }}" class="pastel-blue-text"><i class="material-icons">exit_to_app</i>Logout</a></li>
+            @else
+            <li><a href="{{ route('site.login') }}" class="pastel-blue-text"><i class="material-icons">login</i>Login</a></li>
+            @endauth
+            @auth
+                <h4>Notificações</h4>
+
+                @if(auth()->user()->unreadNotifications->count() === 0)
+                    <p>Você não tem notificações novas.</p>
+                @else
+                    <ul>
+                        @foreach(auth()->user()->unreadNotifications as $notification)
+                            <li>{{ $notification->data['mensagem'] }}</li>
+                            
+                        @endforeach
+                        
+                        
+                  
+                    </ul>
+                @endif
+                <h4><a href="{{route('readNotification')}}">Marcar como lidas</a></h4>
+            @endauth
+
+            <!-- Rodapé dentro do menu lateral -->
+            <li class="sidebar-footer pastel-blue-text">
+                &copy; 2025 Balacobaco - Todos os direitos reservados
+            </li>
         </ul>
         <div style="margin-top:auto; padding-top: 20px; font-size: 0.8rem; text-align:center; color:#555;">
           &copy; {{ date('Y') }} Balacobaco - Todos os direitos reservados

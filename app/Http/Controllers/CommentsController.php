@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\CommentsPost; // Certifique-se de que o modelo posts está importado
 use Illuminate\Support\Facades\Auth;
 use App\Models\posts;
+use App\Models\User;
+use App\Notifications\NovoComment;
+use Illuminate\Support\Facades\Log;
+
 
 class CommentsController extends Controller
 {
@@ -27,7 +31,15 @@ class CommentsController extends Controller
         // Carrega o usuário para enviar o nome junto
         $comment->load('user');
 
-        return response()->json([
+
+    //Notifação
+        $alvodanotificacao = User::findOrFail($comment->id_user);
+        $alvodanotificacao->notify(new NovoComment($comment)); // Envia a notificação para o usuário que fez o comentário
+
+ 
+
+
+    return response()->json([ // Reposta JSON com o nome do usuário e o texto do comentário para ser recebido com AJAX.
             'success' => true,
             'comment' => [
                 'user_name' => $comment->user->name,
@@ -35,7 +47,19 @@ class CommentsController extends Controller
                 'id' => $comment->id,
             ],
         ]);
+    }
 
+
+
+    public function readNotification()
+    {
+
+        $user = Auth::user();
+        foreach ($user->unreadNotifications as $notification) {
+            $notification->markAsRead();
+        }
+ 
+        return redirect()->route('site.home');
     }
 
       

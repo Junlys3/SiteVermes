@@ -32,6 +32,9 @@
     @endforeach
   </div>
 
+ 
+
+
   {{-- Botão flutuante para adicionar novo post.. --}}
   @auth
     <a href="{{ route('site.form') }}" 
