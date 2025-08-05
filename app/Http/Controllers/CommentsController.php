@@ -33,8 +33,11 @@ class CommentsController extends Controller
 
 
     //Notifação
-        $alvodanotificacao = User::findOrFail($comment->id_user);
-        $alvodanotificacao->notify(new NovoComment($comment)); // Envia a notificação para o usuário que fez o comentário
+
+        $post = posts::findOrFail($id); // Encontra o post pelo ID
+        $post->load('user'); // Carrega o usuário do post
+        $alvodanotificacao = User::findOrFail($post->id_user);
+        $alvodanotificacao->notify(new NovoComment($comment)); // Envia a notificação para o dono do post que fez o comentário
 
  
 
